@@ -1,0 +1,93 @@
+\documentclass[a4paper,11pt]{scrartcl}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtools}
+\usepackage{braket}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Satz}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Korollar}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{conj}[thm]{Vermutung}
+\newtheorem{exmp}[thm]{Beispiel}
+
+% \theoremstyle{remark}
+\newtheorem{rem}[thm]{Bemerkung}
+\newtheorem*{note}{Merke}
+
+\newcommand{\stcomp}[1]{{#1}^{\mathsf{c}}} % Mengenkomplement
+\DeclarePairedDelimiter{\sprod}{\langle}{\rangle}	% spitze Klammern
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}		% Betrag
+
+\begin{document}
+
+\title{Mischungsverhalten und Eigenfunktionen}
+% \title{Abschätzung der Spektrallücke über Leitfähigkeit}
+\author{Alexander Schlüter}
+% \thanks{Betreuung: Prof. Dr. Dereich, Johannes Blank}
+\date{18. Januar 2016}
+\maketitle
+
+\section{Einleitung}
+Wir haben schon die Leitfähigkeit einer Markovkette als eine Möglichkeit zur
+Abschätzung ihrer Mischzeit kennengelernt. In diesem Vortrag soll die
+Spektrallücke einer Markovkette anhand der Eigenwerte ihrer Übergangsmatrix
+definiert werden. Das Hauptresultat ist eine Abschätzung der Spektrallücke
+mithilfe der Leitfähigkeit.
+
+\subsection{Erinnerungen}
+Im Folgenden sei $\Omega$ ein endlicher Zustandsraum, $P$ eine irreduzible und
+aperiodische Übergangsmatrix auf $\Omega$ mit stationärer Verteilung $\pi$.
+\begin{defn}
+ Schreibe für $x, y\in\Omega$ 
+ \begin{equation*}
+  Q(x,y)\coloneqq\pi(x)P(x,y).
+ \end{equation*}
+ Für $A, B\subset\Omega$ sei das \textbf{Randmaß} $Q$ definiert durch
+ \begin{equation*}
+   Q(A,B)\coloneqq\sum_{x\in A, y\in B}Q(x,y). 
+ \end{equation*}
+ Die \textbf{Leitfähigkeit} einer Menge $S$ ist
+ \begin{equation*}
+  \phi(S)\coloneqq\frac{Q(S,\stcomp{S})}{\pi(S)} 
+ \end{equation*}
+ und die Leitfähigkeit der ganzen Kette
+ \begin{equation*}
+  \phi_\star\coloneqq\min\Set{\phi(S)\mid S\subset\Omega,\,\pi(S)\leq\frac{1}{2}}.
+ \end{equation*}
+\end{defn}
+Wir haben gesehen, dass die Leitfähigkeit die Mischzeit der Markovkette
+beeinflusst. Markovketten mit einer geringen Leitfähigkeit mischen langsamer,
+d.h. sie konvergieren langsamer gegen die stationäre Verteilung. Man kann sich
+auch vorstellen, dass die Leitfähigkeit die ``engste Stelle'' der Kette misst,
+daher der Name ``Flaschenhals-Quotient''.
+
+\section{Eigenwerte und die Spektrallücke}
+Die Verteilung einer Markovkette wird im Wesentlichen durch ihre Übergangsmatrix
+charakterisiert, deshalb ist es sinnvoll, sich diese mithilfe der Linearen
+Algebra genauer anzuschauen.
+
+Sei im Folgenden $P$ \textbf{reversibel} bezüglich $\pi$.
+\begin{defn}
+  Seien $f, g\in\mathbb{R}^\Omega$. Definiere
+  \begin{equation*}
+    \sprod{f,g}_\pi\coloneqq\sum_{x\in\Omega}f(x)g(x)\pi(x)
+  \end{equation*}
+\end{defn}
+
+\begin{rem}
+ Da für alle $x\in\Omega\quad\pi(x)>0$ gilt, wird hierdurch ein Skalarprodukt auf
+ $\mathbb{R}^\Omega$ definiert. Der Hilbertraum $(\mathbb{R}^\Omega,
+ \sprod{\cdot,\cdot})$ hat eine Orthonormalbasis aus reellen Eigenfunktionen
+ $f_1,\dots, f_{\abs{\Omega}}$ wobei $f_i$ Eigenfunktion zum Eigenwert
+ $\lambda_i$ ist ($1\leq i\leq\abs{\Omega}$). 
+\end{rem}
+
+\end{document}
