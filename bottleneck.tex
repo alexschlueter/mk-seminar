@@ -1,30 +1,83 @@
-\documentclass[a4paper,11pt]{scrartcl}
+\documentclass[ngerman,a4paper,11pt]{scrartcl}
 \usepackage{lmodern}
 \usepackage[utf8]{inputenc}
-\usepackage[ngerman]{babel}
+\usepackage{babel}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
+\usepackage{thmtools}
 \usepackage{braket}
+\usepackage{enumitem}
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+\usepackage{nameref,hyperref}
+\usepackage[capitalize]{cleveref}
 
-\theoremstyle{plain}
-\newtheorem{thm}{Satz}[section]
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{prop}[thm]{Proposition}
-\newtheorem{cor}[thm]{Korollar}
+\bibliography{literatur.bib}
 
-\theoremstyle{definition}
-\newtheorem{defn}[thm]{Definition}
-\newtheorem{conj}[thm]{Vermutung}
-\newtheorem{exmp}[thm]{Beispiel}
+\newlist{thmlist}{enumerate}{1}
+\setlist[thmlist]{label=(\roman{thmlisti}), ref=\thethm.(\roman{thmlisti}),noitemsep}
 
-% \theoremstyle{remark}
-\newtheorem{rem}[thm]{Bemerkung}
-\newtheorem*{note}{Merke}
+\declaretheorem[
+name=Theorem,
+%refname={theorem,theorems},        %Lower Case Versions of Theorem Type
+Refname={Theorem,Theorems},
+numberwithin=section]{thm}
+
+\declaretheorem[
+name=Lemma,
+%refname={lemma,lemmas},
+Refname={Lemma,Lemmas},
+style=definition,
+sibling=thm]{lem}
+
+\declaretheorem[
+name=Definition,
+%refname={lemma,lemmas},
+Refname={Definition,Definitionen},
+style=definition,
+sibling=thm]{defn}
+
+\declaretheorem[
+name=Bemerkung,
+%refname={lemma,lemmas},
+Refname={Bemerkung,Bemerkungen},
+style=definition,
+sibling=thm]{rem}
+
+\Crefname{thm}{Theorem}{Theorems}
+\Crefname{lem}{Lemma}{Lemmas}
+
+\addtotheorempostheadhook[thm]{\crefalias{thmlisti}{thm}}
+\addtotheorempostheadhook[lem]{\crefalias{thmlisti}{lem}}
+
+% \theoremstyle{definition}
+% \newtheorem{thm}{Satz}[section]
+% \newtheorem{lem}[thm]{Lemma}
+% \newtheorem{prop}[thm]{Proposition}
+% \newtheorem{cor}[thm]{Korollar}
+
+% \newtheorem{defn}[thm]{Definition}
+% \newtheorem{conj}[thm]{Vermutung}
+% \newtheorem{exmp}[thm]{Beispiel}
+
+% % \theoremstyle{remark}
+% \newtheorem{rem}[thm]{Bemerkung}
+% \newtheorem*{note}{Merke}
 
 \newcommand{\stcomp}[1]{{#1}^{\mathsf{c}}} % Mengenkomplement
+\newcommand{\diri}{\mathcal{E}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\OO}{\mathbb{O}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
 \DeclarePairedDelimiter{\sprod}{\langle}{\rangle}	% spitze Klammern
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}		% Betrag
+\DeclareMathOperator{\ggT}{ggT}
 
 \begin{document}
 
@@ -43,8 +96,7 @@ definiert werden. Das Hauptresultat ist eine Abschätzung der Spektrallücke
 mithilfe der Leitfähigkeit.
 
 \subsection{Erinnerungen}
-Im Folgenden sei $\Omega$ ein endlicher Zustandsraum, $P$ eine irreduzible und
-aperiodische Übergangsmatrix auf $\Omega$ mit stationärer Verteilung $\pi$.
+Im Folgenden sei $\Omega$ ein endlicher Zustandsraum, $P$ eine irreduzible Übergangsmatrix auf $\Omega$ mit stationärer Verteilung $\pi$.
 \begin{defn}
  Schreibe für $x, y\in\Omega$ 
  \begin{equation*}
@@ -54,13 +106,13 @@ aperiodische Übergangsmatrix auf $\Omega$ mit stationärer Verteilung $\pi$.
  \begin{equation*}
    Q(A,B)\coloneqq\sum_{x\in A, y\in B}Q(x,y). 
  \end{equation*}
- Die \textbf{Leitfähigkeit} einer Menge $S$ ist
+ Die \textbf{Leitfähigkeit} einer Menge $S\subset\Omega$ ist
  \begin{equation*}
   \phi(S)\coloneqq\frac{Q(S,\stcomp{S})}{\pi(S)} 
  \end{equation*}
  und die Leitfähigkeit der ganzen Kette
  \begin{equation*}
-  \phi_\star\coloneqq\min\Set{\phi(S)\mid S\subset\Omega,\,\pi(S)\leq\frac{1}{2}}.
+  \phi_\star\coloneqq\min\Set{\phi(S)\mid S\subset\Omega,\,0<\pi(S)\leq\frac{1}{2}}.
  \end{equation*}
 \end{defn}
 Wir haben gesehen, dass die Leitfähigkeit die Mischzeit der Markovkette
@@ -76,7 +128,7 @@ Algebra genauer anzuschauen.
 
 Sei im Folgenden $P$ \textbf{reversibel} bezüglich $\pi$.
 \begin{defn}
-  Seien $f, g\in\mathbb{R}^\Omega$. Definiere
+  Seien $f, g\in\RR^\Omega$. Definiere
   \begin{equation*}
     \sprod{f,g}_\pi\coloneqq\sum_{x\in\Omega}f(x)g(x)\pi(x)
   \end{equation*}
@@ -84,10 +136,125 @@ Sei im Folgenden $P$ \textbf{reversibel} bezüglich $\pi$.
 
 \begin{rem}
  Da für alle $x\in\Omega\quad\pi(x)>0$ gilt, wird hierdurch ein Skalarprodukt auf
- $\mathbb{R}^\Omega$ definiert. Der Hilbertraum $(\mathbb{R}^\Omega,
- \sprod{\cdot,\cdot})$ hat eine Orthonormalbasis aus reellen Eigenfunktionen
- $f_1,\dots, f_{\abs{\Omega}}$ wobei $f_i$ Eigenfunktion zum Eigenwert
- $\lambda_i$ ist ($1\leq i\leq\abs{\Omega}$). 
+ $\RR^\Omega$ definiert und $\ell^2(\pi)\coloneqq(\RR^\Omega,
+ \sprod{\cdot,\cdot}_\pi)$ ist ein Hilbertraum.
 \end{rem}
+
+\begin{lem}
+  Sei $P$ eine Übergangsmatrix.
+  \begin{thmlist}
+  \item Ist $\lambda$ ein Eigenwert von $P$, dann gilt $\abs{\lambda}\leq 1$.
+  \item Ist $P$ irreduzibel, dann ist der Eigenraum zum Eigenwert $1$
+    eindimensional und er wird aufgespannt durch $(1,1,\dotsc,1)^T$.
+  \item Ist $P$ irreduzibel und aperiodisch, so ist $-1$ kein Eigenwert.\label{lem:apew}
+  \end{thmlist}
+\end{lem}
+\begin{proof}
+  \begin{thmlist}
+  \item Sei $f$ Eigenfunktion zu $\lambda$ und $x\in\Omega$ mit
+    $\abs{f(x)}=\max_{y\in\Omega}\abs{f(y)}$. Dann gilt
+    \begin{equation*}
+     \abs{\lambda f(x)}=\abs{\sum_{y\in\Omega}P(x,y)f(y)}\leq\abs{f(x)}\sum_{y\in\Omega}P(x,y)=\abs{f(x)} 
+    \end{equation*}
+    und da f nicht konstant $0$ ist, folgt $\abs{\lambda}\leq 1$.
+  \item Da die Zeilensumme $1$ ist, ist $(1,1,\dotsc,1)^T$ offensichtlich
+    Eigenfunktion zum Eigenwert $1$.
+    Sei $f$ Eigenfunktion zu $1$ und $x\in\Omega$ mit
+    $\abs{f(x)}=\max_{y\in\Omega}\abs{f(y)}$. Dann 
+    \begin{equation*}
+     \sum_{y\in\Omega}P(x,y)\frac{f(y)}{f(x)}=1 
+    \end{equation*}
+    mit $\frac{f(y)}{f(x)}\leq 1$. Es muss also für alle $y\in\Omega$ mit
+    $P(x,y)>0$\quad$\frac{f(y)}{f(x)}=1$ gelten. 
+
+Ist $y\in\Omega$ beliebig, so existiert $t\in\NN$ mit $P^t(x,y)>0$, denn
+$P$ ist irreduzibel. $f$ ist auch Eigenfunktion von $P^t$ zum Eigenwert $1$ und mit dem gleichen Argument
+wie oben für $P^t$ folgt $f(y)=f(x)$.
+  \item Zeige die Kontraposition: Sei $f$ Eigenfunktion zum
+    Eigenwert $-1$. Sei $x\in\Omega$ mit $\abs{f(x)}=\max_{y\in\Omega}\abs{f(y)}$.
+    \begin{equation*}
+     \abs{-f(x)}=\abs{\sum_{y\in\Omega}P(x,y)f(y)}\leq\sum_{y\in\Omega}P(x,y)\abs{f(y)}\leq\abs{f(x)}
+    \end{equation*}
+    und da $\abs{f(y)}\leq\abs{f(x)}$ folgt für alle $y\in\Omega$ mit
+    $P(x,y)>0$, dass $\abs{f(y)}=\abs{f(x)}$. 
+    % Da $P$ irreduzibel ist, folgt $\abs{f(y)}=r$ für alle $y\in\Omega$.
+
+    Ohne Beträge sieht man, dass
+    \begin{equation*}
+     -f(x)=\sum_{y\in\Omega}P(x,y)f(y)
+    \end{equation*}
+   was nur möglich ist, wenn für $y\in\Omega$ mit $P(x,y)>0$ gilt: $f(y)=-f(x)$. 
+   
+   Sei $t\in\mathcal{T}(x)\coloneqq\Set{s\in\NN\mid P^s(x,x)>0}$. Es existiert
+   ein Pfad
+   \begin{equation*}
+     x=v_0\rightarrow v_1\rightarrow v_2\rightarrow\dotso\rightarrow v_{t-1}\rightarrow v_t=x, 
+   \end{equation*}
+   mit $v_i\in\Omega$, $P(v_i, v_{i+1})>0$ ($0\leq i\leq t-1$). Nach obiger
+   Betrachtung ist 
+   \begin{equation*}
+    f(x)=-f(v_{t-1})=\dotsb=(-1)^tf(x) 
+   \end{equation*}
+   Also muss $t$ gerade sein und $\ggT(\mathcal{T}(x))\geq 2$, d.h. $P$ ist
+   nicht aperiodisch.
+  \end{thmlist}
+\end{proof}
+
+\begin{lem}
+ Sei $P$ reversibel bezüglich $\pi$. Dann hat $\ell^2(\pi)$  eine
+ Orthonormalbasis $f_1,\dotsc ,f_{\abs{\Omega}}$, wobei $f_i$ Eigenfunktion von
+ $P$ zum Eigenwert $\lambda_i$ ($1\leq i\leq\abs{\Omega}$) ist.
+\end{lem}
+\begin{proof}
+ Aus Reversibilität folgt, dass die Matrix
+ \begin{equation*}
+  A(x,y)\coloneqq\pi(x)^{1/2}\pi(y)^{-1/2}P(x,y) 
+ \end{equation*}
+ symmetrisch ist. Die Behauptung folgt mittels des Spektralsatzes für
+ symmetrische Matrizen. Für den vollen Beweis siehe \cite[Lemma 12.2(i)]{lpw}.
+\end{proof}
+
+\begin{defn}
+ Für eine reversible Übergangsmatrix $P$ nummerieren wir ihre Eigenwerte in
+ absteigender Ordnung:
+ \begin{equation*}
+  1=\lambda_1>\lambda_2\geq\dotsb\geq\lambda_{\abs{\Omega}}\geq -1.
+ \end{equation*}
+ Definiere
+ \begin{equation*}
+  \lambda_\star\coloneqq\max\Set{\abs{\lambda}\mid\text{$\lambda$ ist Eigenwert von $P$, $\lambda\neq 1$}}. 
+ \end{equation*}
+  Die Differenz $\gamma_\star\coloneqq 1-\lambda_\star$ heißt \textbf{absolute Spektrallücke}.
+
+  Die \textbf{Spektrallücke} ist definiert durch $\gamma\coloneqq 1-\lambda_2$.
+\end{defn}
+
+\begin{rem}
+ Nach \cref{lem:apew} ist für eine irreduzible aperiodische Übergangsmatrix $\gamma_\star>0$. 
+\end{rem}
+
+\section{Die Dirichletform}
+Bis jetzt ist noch nicht klar, was die Spektrallücke mit der Leitfähigkeit zu
+tun hat. Die Verbindung wird über die Dirichletform hergestellt:
+
+\begin{defn}
+  % reversibel unnötig, aber irreduzibel für Ex. + Eind. der stationären Vert.?
+  Sei $P$ eine Übergangsmatrix mit stationärer Verteilung $\pi$. Die Abbildung
+  \begin{align*}
+   \diri \colon &\RR^\Omega\times\RR^\Omega \to\RR \\
+   &(f,g)\xmapsto{\phantom{\RR^\Omega\times\RR^\Omega}}\sprod{(I-P)f,g}_\pi
+  \end{align*}
+  heißt \textbf{Dirichletform} zu $(P,\pi)$.
+\end{defn}
+
+\begin{lem}
+ Sei $P$ nun \textbf{reversibel} bezüglich $\pi$ und definiere für $f\in\RR^\Omega$
+ \begin{equation}
+  \diri(f)\coloneqq\frac{1}{2}\sum_{x,y\in\Omega}(f(x)-f(y))^2\pi(x)P(x,y).
+ \end{equation}
+ Dann gilt $\diri(f)=\diri(f,f)$.
+\end{lem}
+
+\printbibliography
 
 \end{document}
