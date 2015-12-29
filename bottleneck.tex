@@ -11,41 +11,59 @@
 \usepackage[backend=biber,style=alphabetic]{biblatex}
 \usepackage{nameref,hyperref}
 \usepackage[capitalize]{cleveref}
+\usepackage[shortcuts]{extdash}
 
 \bibliography{literatur.bib}
 
 \newlist{thmlist}{enumerate}{1}
 \setlist[thmlist]{label=(\roman{thmlisti}), ref=\thethm.(\roman{thmlisti}),noitemsep}
 
+\newtheoremstyle{break}{}{}{}{}{\bfseries}{}{\newline}{}
+
 \declaretheorem[
-name=Theorem,
+name=Satz,
 %refname={theorem,theorems},        %Lower Case Versions of Theorem Type
-Refname={Theorem,Theorems},
+% Refname={Satz,Sätze},
+style=break,
+numberwithin=section]{thmbk}
+
+\declaretheorem[
+name=Satz,
+%refname={theorem,theorems},        %Lower Case Versions of Theorem Type
+% Refname={Satz,Sätze},
+style=definition,
 numberwithin=section]{thm}
 
 \declaretheorem[
 name=Lemma,
 %refname={lemma,lemmas},
-Refname={Lemma,Lemmas},
+% Refname={Lemma,Lemmas},
 style=definition,
 sibling=thm]{lem}
 
 \declaretheorem[
 name=Definition,
 %refname={lemma,lemmas},
-Refname={Definition,Definitionen},
+% Refname={Definition,Definitionen},
 style=definition,
 sibling=thm]{defn}
 
 \declaretheorem[
 name=Bemerkung,
 %refname={lemma,lemmas},
-Refname={Bemerkung,Bemerkungen},
+% Refname={Bemerkung,Bemerkungen},
 style=definition,
 sibling=thm]{rem}
 
-\Crefname{thm}{Theorem}{Theorems}
-\Crefname{lem}{Lemma}{Lemmas}
+\declaretheorem[
+name=Beispiel,
+%refname={lemma,lemmas},
+% Refname={Bemerkung,Bemerkungen},
+style=definition,
+sibling=thm]{exmp}
+
+% \Crefname{thm}{Satz}{Sätze}
+% \Crefname{lem}{Lemma}{Lemmas}
 
 \addtotheorempostheadhook[thm]{\crefalias{thmlisti}{thm}}
 \addtotheorempostheadhook[lem]{\crefalias{thmlisti}{lem}}
@@ -63,7 +81,11 @@ sibling=thm]{rem}
 % % \theoremstyle{remark}
 % \newtheorem{rem}[thm]{Bemerkung}
 % \newtheorem*{note}{Merke}
-
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1}
+\newcommand{\fracnorm}[3]{%
+    \ensuremath{\frac{\! #1\!}{\! {}_{\phantom{#3}}\norm{#2}_{#3}\!}}%
+}
+\newcommand\coloniff{\vcentcolon\!\iff}
 \newcommand{\stcomp}[1]{{#1}^{\mathsf{c}}} % Mengenkomplement
 \newcommand{\diri}{\mathcal{E}}
 \newcommand{\CC}{\mathbb{C}}
@@ -126,12 +148,13 @@ Die Verteilung einer Markovkette wird im Wesentlichen durch ihre Übergangsmatri
 charakterisiert, deshalb ist es sinnvoll, sich diese mithilfe der Linearen
 Algebra genauer anzuschauen.
 
-Sei im Folgenden $P$ \textbf{reversibel} bezüglich $\pi$.
+% Sei im Folgenden $P$ \textbf{reversibel} bezüglich $\pi$.
 \begin{defn}
   Seien $f, g\in\RR^\Omega$. Definiere
-  \begin{equation*}
-    \sprod{f,g}_\pi\coloneqq\sum_{x\in\Omega}f(x)g(x)\pi(x)
-  \end{equation*}
+  \begin{align*}
+    \sprod{f,g}_\pi&\coloneqq\sum_{x\in\Omega}f(x)g(x)\pi(x) \\
+    \norm{f}_\pi&\coloneqq\sqrt{\sprod{f,f}}
+  \end{align*}
 \end{defn}
 
 \begin{rem}
@@ -201,9 +224,11 @@ wie oben für $P^t$ folgt $f(y)=f(x)$.
 \end{proof}
 
 \begin{lem}
+ \label{lem:ortho}
  Sei $P$ reversibel bezüglich $\pi$. Dann hat $\ell^2(\pi)$  eine
  Orthonormalbasis $f_1,\dotsc ,f_{\abs{\Omega}}$, wobei $f_i$ Eigenfunktion von
- $P$ zum Eigenwert $\lambda_i$ ($1\leq i\leq\abs{\Omega}$) ist.
+ $P$ zum Eigenwert $\lambda_i$ ($1\leq i\leq\abs{\Omega}$) ist. Die
+ Eigenfunktion zum Eigenwert $1$ kann als die konstante Einsfunktion $f_1=\mathbf{1}$ gewählt werden.
 \end{lem}
 \begin{proof}
  Aus Reversibilität folgt, dass die Matrix
@@ -211,7 +236,7 @@ wie oben für $P^t$ folgt $f(y)=f(x)$.
   A(x,y)\coloneqq\pi(x)^{1/2}\pi(y)^{-1/2}P(x,y) 
  \end{equation*}
  symmetrisch ist. Die Behauptung folgt mittels des Spektralsatzes für
- symmetrische Matrizen. Für den vollen Beweis siehe \cite[Lemma 12.2(i)]{lpw}.
+ symmetrische Matrizen. Für den vollen Beweis siehe \cite[Lemma~12.2(i)]{lpw}.
 \end{proof}
 
 \begin{defn}
@@ -235,11 +260,14 @@ wie oben für $P^t$ folgt $f(y)=f(x)$.
 
 \section{Die Dirichletform}
 Bis jetzt ist noch nicht klar, was die Spektrallücke mit der Leitfähigkeit zu
-tun hat. Die Verbindung wird über die Dirichletform hergestellt:
+tun hat. Die Verbindung wird über die Dirichletform hergestellt.
+
+Ab hier sei $P$ eine \textbf{reversible} Übergangsmatrix bezüglich der
+stationären Verteilung $\pi$.
 
 \begin{defn}
   % reversibel unnötig, aber irreduzibel für Ex. + Eind. der stationären Vert.?
-  Sei $P$ eine Übergangsmatrix mit stationärer Verteilung $\pi$. Die Abbildung
+  Sei $P$ eine reversible Übergangsmatrix mit stationärer Verteilung $\pi$. Die Abbildung
   \begin{align*}
    \diri \colon &\RR^\Omega\times\RR^\Omega \to\RR \\
    &(f,g)\xmapsto{\phantom{\RR^\Omega\times\RR^\Omega}}\sprod{(I-P)f,g}_\pi
@@ -248,12 +276,139 @@ tun hat. Die Verbindung wird über die Dirichletform hergestellt:
 \end{defn}
 
 \begin{lem}
- Sei $P$ nun \textbf{reversibel} bezüglich $\pi$ und definiere für $f\in\RR^\Omega$
+ Definiere für $f\in\RR^\Omega$
  \begin{equation}
+  \label{eq:diri}
   \diri(f)\coloneqq\frac{1}{2}\sum_{x,y\in\Omega}(f(x)-f(y))^2\pi(x)P(x,y).
  \end{equation}
  Dann gilt $\diri(f)=\diri(f,f)$.
 \end{lem}
+\begin{proof}
+  Ausmultiplizieren der Klammer in \cref{eq:diri} gibt
+  \begin{equation*}
+   \diri(f)=\underbrace{\frac{1}{2}\sum_{x,y\in\Omega}f(x)^2\pi(x)P(x,y)}_{\text{(a)}}-
+   \underbrace{\sum_{x,y\in\Omega}f(x)f(y)\pi(x)P(x,y)}_{\text{(b)}}
+   +\underbrace{\frac{1}{2}\sum_{x,y\in\Omega}f(y)^2\pi(x)P(x,y)}_{\text{(c)}}
+  \end{equation*}
+  Wegen Reversibilität ist $\pi(x)P(x,y)=\pi(y)P(y,x)$ und die Terme (a) und (c)
+  lassen sich zusammenfassen:
+  \begin{align*}
+   (a)+(c)&=\sum_{x,y\in\Omega}f(x)^2\pi(x)P(x,y) \\
+   &=\sum_{x\in\Omega}f(x)^2\pi(x)\sum_{y\in\Omega}P(x,y) \\
+   &=\sum_{x\in\Omega}f(x)^2\pi(x).
+  \end{align*}
+  Zusammen mit (b) also
+  \begin{align*}
+   \diri(f)&=\sum_{x\in\Omega}f(x)^2\pi(x)-\sum_{x\in\Omega}\left(\sum_{y\in\Omega}P(x,y)f(y) \right)f(x)\pi(x) \\
+   &=\sprod{f,f}_\pi-\sprod{Pf,f}_\pi \\
+   &=\sprod{(I-P)f,f}_\pi \\
+   &=\diri(f,f)
+  \end{align*}
+\end{proof}
+
+\begin{rem}
+ Für $f,g\in\RR^\Omega$ schreibe 
+ \begin{equation*}
+  f\perp_\pi g\coloniff\sprod{f,g}_\pi=0.
+ \end{equation*}
+ $f$ und $g$ heißen dann \textbf{$\pi$\=/orthogonal}.
+
+ Es sei $\mathbf{1}$ die
+ konstante Einsfunktion auf $\Omega$. Dann
+ ist
+ \begin{equation*}
+  E_\pi(g)=\sum_{x\in\Omega}g(x)\pi(x)=\sprod{g,\mathbf{1}}_\pi\, ,
+ \end{equation*}
+ also $E_\pi(g)=0$ genau dann wenn $g\perp_\pi\mathbf{1}$.
+\end{rem}
+
+\begin{lem}
+ \label{lem:spekdiri}
+ Für die Spektrallücke $\gamma=1-\lambda_2$  gilt
+ \begin{align}
+  \gamma&=\min\Set{\diri(g)\mid g\in\RR^{\Omega} , \, g\perp_\pi\mathbf{1} , \, \norm{g}_\pi=1} \label{eq:min} \\
+        &=\min\Set{\frac{\diri(g)}{\norm{g}_\pi^2}\mid g\in\RR^\Omega,\, g\perp_\pi\mathbf{1},\, g\neq 0} \label{eq:min2}
+ \end{align}
+\end{lem}
+
+% Unnötig, weil Beweis Minimum zeigt
+% \begin{rem}
+%  Die Menge $\Set{g\in\RR^\Omega\mid\norm{g}_\pi=1}$ ist kompakt und die Menge
+%  $E_\pi^{-1}(\{0\})$ ist abgeschlossen, der Schnitt ist also kompakt. Da die Abbildung $\diri(\cdot)$ stetig
+%  ist, hat die Menge in \cref{eq:min} tatsächlich ein Minimum. Im Beweis wird
+%  gezeigt, dass die Menge mit der in \cref{eq:min2} übereinstimmt. Darum ist auch
+%  hier das Minimum gerechtfertigt.
+% \end{rem}
+
+\begin{proof} % [Beweis von \cref{lem:spekdiri}]
+ Sei $n\coloneqq\abs{\Omega}$. Laut \cref{lem:ortho} gibt es in $\ell^2(\pi)$ eine
+ Orthonormalbasis $f_1,\dotsc,f_n$ von Eigenfunktionen von $P$, wobei $f_1=\mathbf{1}$. Ist
+ $g\in\RR^\Omega$, so kann $g$ in der ONB entwickelt werden zu
+ \begin{equation*}
+  g=\sum_{j=1}^n\sprod{g,f_j}_\pi f_j\, . 
+ \end{equation*}
+ Setze $a_j\coloneqq\sprod{g,f_j}_\pi$.
+ Ist $g\perp_\pi\mathbf{1}$, d.h. $\sprod{g,f_1}_\pi=0$, so fällt der erste
+ Summand weg. Gilt auch $\norm{g}_\pi=1$, dann ist
+ \begin{equation*}
+  1=\norm{g}_\pi^2=\sprod{g,g}_\pi=\sum_{j=2}^na_j^2\, .
+ \end{equation*}
+ Insgesamt
+ \begin{align*}
+  \diri(f)&=\sprod{(I-P)g,g}_\pi=\sprod{\, (I-P)\sum_{j=2}^n a_j f_j\, ,\, g\,}_\pi \\
+          &=\sprod{\, \sum_{j=2}^n a_j (1-\lambda_j)f_j\, ,\, g\, }_\pi=\sum_{j=2}a_j (1-\lambda_j) \\
+          &\geq(1-\lambda_2)\sum_{j=2}^n a_j^2=(1-\lambda_2)
+ \end{align*}
+ mit Gleichheit im vorletzten Schritt für $g=f_2$. Damit ist \cref{eq:min} gezeigt.
+ 
+ Die Ungleichung ``$\geq$'' von \eqref{eq:min} zu \eqref{eq:min2} ist klar. Sei
+ $g\in\RR^\Omega$ mit $g\perp_\pi\mathbf{1}$, $\norm{g}_\pi\neq0$. Dann hat
+ $\widetilde{g}\coloneqq g/\norm{g}_\pi$ Norm 1 und 
+ \begin{equation*}
+  \diri(\widetilde{g})=\sprod{(I-P)\fracnorm{g}{g}{\pi},\fracnorm{g}{g}{\pi}}_\pi=\frac{\diri(g)}{\norm{g}_\pi^2}\, .
+ \end{equation*}
+ Also gilt auch ``$\leq$''.
+\end{proof}
+
+\section{Abschätzung der Spektrallücke über die Leitfähigkeit}
+Wir formulieren jetzt das Hauptresultat:
+\begin{thmbk}[Jerrum und Sinclair (1989), Lawler und Sokal (1988)]
+ Sei $P$ eine irreduzible, reversible Übergangsmatrix mit stationärer Verteilung $\pi$.
+ Sei $\lambda_2$ der zweitgrößte Eigenwert von $P$ und $\phi_\star$ die Leitfähigkeit.
+ Dann gilt für die Spektrallücke $\gamma=1-\lambda_2$:
+ \begin{equation}
+  \frac{\phi_\star^2}{2}\leq\gamma\leq 2\phi_\star\, .
+ \end{equation}
+\end{thmbk}
+
+\begin{rem}
+ Die Abschätzung nach oben ist linear in $\phi_\star$, die Abschätzung nach
+ unten ist quadratisch. Die folgenden Beispiele zeigen, dass es Fälle gibt in
+ denen die untere Abschätzung scharf ist, und welche, in denen die obere
+ Abschätung scharf ist. 
+\end{rem}
+\begin{exmp}[Träge Irrfahrt auf dem n-dimensionalen Hyperwürfel]
+ Betrachte die Menge $S\coloneqq\Set{x\in\{0,1\}^n\mid x_1=0}$ der Ecken, deren
+ erste Koordinaten 0 ist. Die stationäre Verteilung ist die Gleichverteilung
+ $\pi=(2^{-n},2^{-n},\dotsc,2^{-n})^T$. Also gilt 
+ \begin{equation*}
+  \pi(S)=2^{-n}\abs{S}=2^{-n}\cdot 2^{n-1}=\frac{1}{2}\, .
+ \end{equation*}
+ Es sei $E$ die Menge der Kanten.
+ Es ist ${x,y}\in E$ genau dann, wenn sich $x$ und $y$ in genau einer Koordinate
+ unterscheiden. Der Rand von S ist deshalb
+ \begin{align*}
+  \partial S&=\Set{\{x,y\}\in E\mid x\in S \text{ und } y\in\stcomp{S}} \\
+            &=\Set{\{(0,v), (1,v)\}\mid v\in\{0,1\}^{n-1}}\, .
+ \end{align*}
+ Folglich ist $\abs{\partial S}=2^{n-1}$. Die Leitfähigkeit der Menge S lässt
+ sich nun berechnen:
+ \begin{align*}
+  \phi(S)&=\frac{Q(S,\stcomp{S})}{\pi(S)}=2\sum_{x\in S,y\in\stcomp{S}}\pi(x)P(x,y) \\
+  &=2\cdot\abs{\partial S}\cdot 2^{-n}\cdot \frac{1}{2n}=2\cdot2^{n-1}\cdot 2^{-n}\cdot \frac{1}{2n}
+  =\frac{1}{2n}
+ \end{align*}
+\end{exmp}
 
 \printbibliography
 
