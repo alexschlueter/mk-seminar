@@ -2,6 +2,7 @@
 \usepackage{lmodern}
 \usepackage[utf8]{inputenc}
 \usepackage{babel}
+\usepackage{csquotes}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
@@ -20,7 +21,7 @@
 \setlist[thmlist]{label=(\roman{thmlisti}), ref=\thethm.(\roman{thmlisti}),noitemsep}
 
 \newtheoremstyle{break}{}{}{}{}{\bfseries}{}{\newline}{}
-\declaretheoremstyle[headpunct=:]{claim}
+\declaretheoremstyle[headpunct=.:]{claim}
 
 \declaretheorem[
 name=Satz,
@@ -70,6 +71,14 @@ numbered=no,
 %refname={lemma,lemmas},
 % Refname={Bemerkung,Bemerkungen},
 style=claim]{claim}
+
+\declaretheorem[
+name=Beweis,
+numbered=no,
+%refname={lemma,lemmas},
+% Refname={Bemerkung,Bemerkungen},
+qed=\ensuremath{\Diamond},
+style=remark]{dproof}
 
 % \Crefname{thm}{Satz}{Sätze}
 % \Crefname{lem}{Lemma}{Lemmas}
@@ -411,7 +420,7 @@ Wir formulieren jetzt das Hauptresultat:
 \begin{exmp}[Träge Irrfahrt auf dem n-dimensionalen Hyperwürfel]
  Sei $\Omega=\{-1,1\}^n$ der n-dimensionale Hyperwürfel.
  Betrachte die Menge $S\coloneqq\Set{x\in\Omega\mid x_1=-1}$ der Ecken, deren
- erste Koordinaten -1 ist. Die stationäre Verteilung ist die Gleichverteilung
+ erste Koordinate -1 ist. Die stationäre Verteilung ist die Gleichverteilung
  $\pi=(2^{-n},2^{-n},\dotsc,2^{-n})^T$. Also gilt 
  \begin{equation*}
   \pi(S)=2^{-n}\abs{S}=2^{-n}\cdot 2^{n-1}=\frac{1}{2}\, .
@@ -433,16 +442,16 @@ Wir formulieren jetzt das Hauptresultat:
  Es folgt 
  \begin{equation}
   \label{eq:phistar}
-  2\phi_\star\leq 2\phi(S)=1/n \, .
+  2\phi_\star\leq 2\phi(S)=\frac{1}{n} \, .
  \end{equation} 
-Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$
+Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
  \begin{equation*}
-  f_J(x_1,\dotsc,x_n)\coloneqq\prod_{j\in J}x_j 
+  f_J(x_1,\dotsc,x_n)\coloneqq\prod_{j\in J}x_j \, .
  \end{equation*}
  \begin{claim}
   $f_J$ ist Eigenfunktion von $P$ zum Eigenwert $1-\abs{J}/n$.
  \end{claim}
- \begin{proof}
+ \begin{dproof}
   Sei $x\in\Omega$ beliebig. Partitioniere $\Omega$ durch vier Mengen:
   \begin{align*}
   A&\coloneqq\Set{y\in\Omega\mid\text{$y$ unterscheidet sich von $x$ nur in einer Koordinate aus $J$}} \\ 
@@ -461,17 +470,16 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$
   &=\frac{1}{2}f(x)+\abs{J}\cdot\frac{1}{2n}\cdot(-f(x))+(n-\abs{J})\frac{1}{2n}f(x) \\
   &=(1-\frac{\abs{J}}{n})f(x)\, .
   \end{align*}
- \end{proof}
+ \end{dproof}
  \begin{claim}
   Es gibt keine weiteren Eigenwerte.
  \end{claim}
- \begin{proof}
+ \begin{dproof}
   Zeige zunächst, dass für $I,J\subset\Omega$ mit $I\neq J$ gilt: $\sprod{f_I,f_J}_\pi=0$.
   Sei dazu o.B.d.A. $k\in I\setminus J$. Dann haben wir
   \begin{align*}
    \sprod{f_I,f_J}_\pi&=\sum_{x\in\Omega}f_I(x)f_J(x) \\
    &=\sum_{(x_1,\dotsc,\cancel{x_k},\dotsc,x_n)}\sum_{x_k\in\{-1,1\}}x_k\cdot f_{I\setminus\{k\}}(x)f_J(x) \\
-   % &=\sum_{(x_1,\dotsc,\cancel{x_k},\dotsc,x_n)}f_{I\setminus\{k\}}(x)f_J(x)-f_{I\setminus\{k\}}(x)f_J(x) \\
    &=0\, ,
   \end{align*}
   wobei die letzte Gleichheit gilt, da weder $f_{I\setminus\{k\}}$ noch $f_J$ von
@@ -503,9 +511,9 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$
   % \begin{equation*}
   %  \sprod{Pg,f_K}_\pi=\sprod{\mu g,f_K}_\pi=\mu a_K 
   % \end{equation*}
- \end{proof}
- Demnach ist der zweitgrößte Eigenwert der Übergangsmatrix $P$ nun $\lambda_2=1-1/n$
- und die Spektrallücke $\gamma=1-\lambda_2=1/n$. Wegen
+ \end{dproof}
+ Wie wir gesehen haben, ist der zweitgrößte Eigenwert der Übergangsmatrix
+ $\lambda_2=\nobreak 1-\nobreak 1/n$ und die Spektrallücke ist $\gamma=1-\lambda_2=1/n$. Wegen
  \begin{equation*}
   \frac{1}{n}=\gamma\overset{\ref{thm:haupt}}{\leq} 2\phi_\star\overset{\eqref{eq:phistar}}{\leq}\frac{1}{n} 
  \end{equation*}
@@ -513,7 +521,8 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$
  \begin{equation*}
   \gamma=\frac{1}{n}=2\phi_\star 
  \end{equation*}
- und die obere Abschätzung aus \cref{thm:haupt} ist scharf und von korrekter Ordnung in $n$.
+ und die obere Abschätzung aus \cref{thm:haupt} ist scharf und von korrekter
+ Ordnung in $n$.
 \end{exmp}
 
 \printbibliography
