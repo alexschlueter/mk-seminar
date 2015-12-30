@@ -12,6 +12,7 @@
 \usepackage{nameref,hyperref}
 \usepackage[capitalize]{cleveref}
 \usepackage[shortcuts]{extdash}
+\usepackage{cancel}
 
 \bibliography{literatur.bib}
 
@@ -19,6 +20,7 @@
 \setlist[thmlist]{label=(\roman{thmlisti}), ref=\thethm.(\roman{thmlisti}),noitemsep}
 
 \newtheoremstyle{break}{}{}{}{}{\bfseries}{}{\newline}{}
+\declaretheoremstyle[headpunct=:]{claim}
 
 \declaretheorem[
 name=Satz,
@@ -61,6 +63,13 @@ name=Beispiel,
 % Refname={Bemerkung,Bemerkungen},
 style=definition,
 sibling=thm]{exmp}
+
+\declaretheorem[
+name=Beh,
+numbered=no,
+%refname={lemma,lemmas},
+% Refname={Bemerkung,Bemerkungen},
+style=claim]{claim}
 
 % \Crefname{thm}{Satz}{Sätze}
 % \Crefname{lem}{Lemma}{Lemmas}
@@ -155,6 +164,11 @@ Algebra genauer anzuschauen.
     \sprod{f,g}_\pi&\coloneqq\sum_{x\in\Omega}f(x)g(x)\pi(x) \\
     \norm{f}_\pi&\coloneqq\sqrt{\sprod{f,f}}
   \end{align*}
+ Für $f,g\in\RR^\Omega$ schreibe 
+ \begin{equation*}
+  f\perp_\pi g\coloniff\sprod{f,g}_\pi=0.
+ \end{equation*}
+ $f$ und $g$ heißen dann \textbf{$\pi$\=/orthogonal}.
 \end{defn}
 
 \begin{rem}
@@ -239,6 +253,14 @@ wie oben für $P^t$ folgt $f(y)=f(x)$.
  symmetrische Matrizen. Für den vollen Beweis siehe \cite[Lemma~12.2(i)]{lpw}.
 \end{proof}
 
+\begin{rem}
+ \label{rem:eigortho}
+ Da $A$ in dem Beweis von \cref{lem:ortho} symmetrisch ist, sind Eigenfunktionen
+ zu unterschiedlichen Eigenwerten orthogonal. Dies überträgt sich auf die
+ Eigenfunktionen von $P$: Eigenfunktionen von $P$ zu unterschiedlichen
+ Eigenwerten sind \textbf{$\pi$\=/orthogonal}.
+\end{rem}
+
 \begin{defn}
  Für eine reversible Übergangsmatrix $P$ nummerieren wir ihre Eigenwerte in
  absteigender Ordnung:
@@ -307,12 +329,6 @@ stationären Verteilung $\pi$.
 \end{proof}
 
 \begin{rem}
- Für $f,g\in\RR^\Omega$ schreibe 
- \begin{equation*}
-  f\perp_\pi g\coloniff\sprod{f,g}_\pi=0.
- \end{equation*}
- $f$ und $g$ heißen dann \textbf{$\pi$\=/orthogonal}.
-
  Es sei $\mathbf{1}$ die
  konstante Einsfunktion auf $\Omega$. Dann
  ist
@@ -338,6 +354,10 @@ stationären Verteilung $\pi$.
 %  ist, hat die Menge in \cref{eq:min} tatsächlich ein Minimum. Im Beweis wird
 %  gezeigt, dass die Menge mit der in \cref{eq:min2} übereinstimmt. Darum ist auch
 %  hier das Minimum gerechtfertigt.
+% \end{rem}
+
+% \begin{rem}
+%  Die Dirichletform ist eine Art Energiefunktional (oder Potential).
 % \end{rem}
 
 \begin{proof} % [Beweis von \cref{lem:spekdiri}]
@@ -373,6 +393,7 @@ stationären Verteilung $\pi$.
 \section{Abschätzung der Spektrallücke über die Leitfähigkeit}
 Wir formulieren jetzt das Hauptresultat:
 \begin{thmbk}[Jerrum und Sinclair (1989), Lawler und Sokal (1988)]
+ \label{thm:haupt}
  Sei $P$ eine irreduzible, reversible Übergangsmatrix mit stationärer Verteilung $\pi$.
  Sei $\lambda_2$ der zweitgrößte Eigenwert von $P$ und $\phi_\star$ die Leitfähigkeit.
  Dann gilt für die Spektrallücke $\gamma=1-\lambda_2$:
@@ -388,18 +409,19 @@ Wir formulieren jetzt das Hauptresultat:
  Abschätung scharf ist. 
 \end{rem}
 \begin{exmp}[Träge Irrfahrt auf dem n-dimensionalen Hyperwürfel]
- Betrachte die Menge $S\coloneqq\Set{x\in\{0,1\}^n\mid x_1=0}$ der Ecken, deren
- erste Koordinaten 0 ist. Die stationäre Verteilung ist die Gleichverteilung
+ Sei $\Omega=\{-1,1\}^n$ der n-dimensionale Hyperwürfel.
+ Betrachte die Menge $S\coloneqq\Set{x\in\Omega\mid x_1=-1}$ der Ecken, deren
+ erste Koordinaten -1 ist. Die stationäre Verteilung ist die Gleichverteilung
  $\pi=(2^{-n},2^{-n},\dotsc,2^{-n})^T$. Also gilt 
  \begin{equation*}
   \pi(S)=2^{-n}\abs{S}=2^{-n}\cdot 2^{n-1}=\frac{1}{2}\, .
  \end{equation*}
  Es sei $E$ die Menge der Kanten.
- Es ist ${x,y}\in E$ genau dann, wenn sich $x$ und $y$ in genau einer Koordinate
+ Es ist $\{x,y\}\in E$ genau dann, wenn sich $x$ und $y$ in genau einer Koordinate
  unterscheiden. Der Rand von S ist deshalb
  \begin{align*}
   \partial S&=\Set{\{x,y\}\in E\mid x\in S \text{ und } y\in\stcomp{S}} \\
-            &=\Set{\{(0,v), (1,v)\}\mid v\in\{0,1\}^{n-1}}\, .
+            &=\Set{\{(-1,v), (1,v)\}\mid v\in\{-1,1\}^{n-1}}\, .
  \end{align*}
  Folglich ist $\abs{\partial S}=2^{n-1}$. Die Leitfähigkeit der Menge S lässt
  sich nun berechnen:
@@ -408,6 +430,90 @@ Wir formulieren jetzt das Hauptresultat:
   &=2\cdot\abs{\partial S}\cdot 2^{-n}\cdot \frac{1}{2n}=2\cdot2^{n-1}\cdot 2^{-n}\cdot \frac{1}{2n}
   =\frac{1}{2n}
  \end{align*}
+ Es folgt 
+ \begin{equation}
+  \label{eq:phistar}
+  2\phi_\star\leq 2\phi(S)=1/n \, .
+ \end{equation} 
+Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$
+ \begin{equation*}
+  f_J(x_1,\dotsc,x_n)\coloneqq\prod_{j\in J}x_j 
+ \end{equation*}
+ \begin{claim}
+  $f_J$ ist Eigenfunktion von $P$ zum Eigenwert $1-\abs{J}/n$.
+ \end{claim}
+ \begin{proof}
+  Sei $x\in\Omega$ beliebig. Partitioniere $\Omega$ durch vier Mengen:
+  \begin{align*}
+  A&\coloneqq\Set{y\in\Omega\mid\text{$y$ unterscheidet sich von $x$ nur in einer Koordinate aus $J$}} \\ 
+  B&\coloneqq\Set{y\in\Omega\mid\text{$y$ unterscheidet sich von $x$ nur in einer Koordinate aus $\stcomp{J}$}} \\
+  C&\coloneqq\{x\} \\
+  D&\coloneqq\Set{y\in\Omega\mid\text{$y$ unterscheidet sich von $x$ in mehr als einer Koordinate}}
+  \end{align*}
+  Für $y\in D$ ist $P(x,y)=0$. Außerdem ist $\abs{A}=\abs{J}$ und $\abs{B}=\abs{\stcomp{J}}=n-\abs{J}$.
+  Ändert man einen Koordinate von $x$, die in $J$ enthalten ist, so dreht sich
+  das Vorzeichen von $f_J$ um: $f_J(y)=-f_J(x)$. Ändert man aber eine Koordinate
+  aus $\stcomp{J}$, so hat dies keinen Einfluss auf $f_J$, d.h. $f_J(y)=f(x)$.
+  Wir können also rechnen
+  \begin{align*}
+  Pf(x)&=\sum_{y\in\Omega}P(x,y)f(y) \\
+  &=P(x,x)f(x)+\sum_{y\in A}P(x,y)f(y)+\sum_{y\in B}P(x,y)f(y) \\
+  &=\frac{1}{2}f(x)+\abs{J}\cdot\frac{1}{2n}\cdot(-f(x))+(n-\abs{J})\frac{1}{2n}f(x) \\
+  &=(1-\frac{\abs{J}}{n})f(x)\, .
+  \end{align*}
+ \end{proof}
+ \begin{claim}
+  Es gibt keine weiteren Eigenwerte.
+ \end{claim}
+ \begin{proof}
+  Zeige zunächst, dass für $I,J\subset\Omega$ mit $I\neq J$ gilt: $\sprod{f_I,f_J}_\pi=0$.
+  Sei dazu o.B.d.A. $k\in I\setminus J$. Dann haben wir
+  \begin{align*}
+   \sprod{f_I,f_J}_\pi&=\sum_{x\in\Omega}f_I(x)f_J(x) \\
+   &=\sum_{(x_1,\dotsc,\cancel{x_k},\dotsc,x_n)}\sum_{x_k\in\{-1,1\}}x_k\cdot f_{I\setminus\{k\}}(x)f_J(x) \\
+   % &=\sum_{(x_1,\dotsc,\cancel{x_k},\dotsc,x_n)}f_{I\setminus\{k\}}(x)f_J(x)-f_{I\setminus\{k\}}(x)f_J(x) \\
+   &=0\, ,
+  \end{align*}
+  wobei die letzte Gleichheit gilt, da weder $f_{I\setminus\{k\}}$ noch $f_J$ von
+  $x_k$ abhängen. 
+  Die Menge
+  \begin{equation*}
+   Z\coloneqq\Set{f_J\mid J\subset\{1,\dotsc,n\}} 
+  \end{equation*}
+  ist demnach linear unabhängig und $\abs{Z}=2^n=\dim(\RR^\Omega)$, also ist $Z$
+  eine Basis von $\RR^\Omega$. 
+
+  Wäre nun $\mu$ ein anderer Eigenwert von $P$, so
+  wäre nach \cref{rem:eigortho} die zugehörige Eigenfunktion $g$
+  $\pi$\=/orthogonal auf allen Eigenvektoren zu anderen Eigenwerten, also auch auf
+  allen Elementen aus $Z$. Dann wäre $g$ linear unabhängig zu $Z$. Dies ist ein Widerspruch.
+
+  % Da $Z$ eine Basis ist, existiert für jedes $J\subset\{1,\dotsc,n\}$ ein
+  % $a_J\in\RR$, sodass
+  % \begin{equation*}
+  %  g=\sum_{J\subset\{1,\dotsc,n\}}a_Jf_J\, . 
+  % \end{equation*}
+  % Da $g\neq 0$ ist, existiert $K\subset\{1,\dotsc,n\}$ mit $a_K\neq 0$.
+  % Dann gilt
+  % \begin{equation*}
+  %  \sprod{Pg,f_K}_\pi=\sum_{J\subset\{1,\dotsc,n\}}a_J(1-\frac{\abs{J}}{n})\sprod{f_J,f_K}_\pi
+  %  =a_K(1-\frac{\abs{K}}{n}) \,
+  % \end{equation*}
+  % Andererseits ist
+  % \begin{equation*}
+  %  \sprod{Pg,f_K}_\pi=\sprod{\mu g,f_K}_\pi=\mu a_K 
+  % \end{equation*}
+ \end{proof}
+ Demnach ist der zweitgrößte Eigenwert der Übergangsmatrix $P$ nun $\lambda_2=1-1/n$
+ und die Spektrallücke $\gamma=1-\lambda_2=1/n$. Wegen
+ \begin{equation*}
+  \frac{1}{n}=\gamma\overset{\ref{thm:haupt}}{\leq} 2\phi_\star\overset{\eqref{eq:phistar}}{\leq}\frac{1}{n} 
+ \end{equation*}
+ gilt 
+ \begin{equation*}
+  \gamma=\frac{1}{n}=2\phi_\star 
+ \end{equation*}
+ und die obere Abschätzung aus \cref{thm:haupt} ist scharf und von korrekter Ordnung in $n$.
 \end{exmp}
 
 \printbibliography
