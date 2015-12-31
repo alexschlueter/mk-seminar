@@ -18,10 +18,19 @@
 \bibliography{literatur.bib}
 
 \newlist{thmlist}{enumerate}{1}
-\setlist[thmlist]{label=(\roman{thmlisti}), ref=\thethm.(\roman{thmlisti}),noitemsep}
+\setlist[thmlist]{label=(\roman{thmlisti}), ref=\thethm (\roman{thmlisti}),noitemsep}
+\newlist{remlist}{enumerate}{1}
+\setlist[remlist]{label=(\arabic*), ref=\thethm (\arabic*),noitemsep}
 
 \newtheoremstyle{break}{}{}{}{}{\bfseries}{}{\newline}{}
 \declaretheoremstyle[headpunct=.:]{claim}
+
+\declaretheorem[
+name=Beispiel,
+%refname={theorem,theorems},        %Lower Case Versions of Theorem Type
+% Refname={Satz,Sätze},
+style=break,
+numberwithin=section]{exmpbk}
 
 \declaretheorem[
 name=Satz,
@@ -85,6 +94,7 @@ style=remark]{dproof}
 
 \addtotheorempostheadhook[thm]{\crefalias{thmlisti}{thm}}
 \addtotheorempostheadhook[lem]{\crefalias{thmlisti}{lem}}
+\addtotheorempostheadhook[rem]{\crefalias{remlisti}{rem}}
 
 % \theoremstyle{definition}
 % \newtheorem{thm}{Satz}[section]
@@ -104,6 +114,18 @@ style=remark]{dproof}
     \ensuremath{\frac{\! #1\!}{\! {}_{\phantom{#3}}\norm{#2}_{#3}\!}}%
 }
 \newcommand\coloniff{\vcentcolon\!\iff}
+
+\makeatletter
+\newcommand*{\transpose}{%
+  {\mathpalette\@transpose{}}%
+}
+\newcommand*{\@transpose}[2]{%
+  % #1: math style
+  % #2: unused
+  \raisebox{\depth}{$\m@th#1\intercal$}%
+}
+\makeatother
+
 \newcommand{\stcomp}[1]{{#1}^{\mathsf{c}}} % Mengenkomplement
 \newcommand{\diri}{\mathcal{E}}
 \newcommand{\CC}{\mathbb{C}}
@@ -187,12 +209,12 @@ Algebra genauer anzuschauen.
 \end{rem}
 
 \begin{lem}
-  Sei $P$ eine Übergangsmatrix.
+  Sei $M$ eine Übergangsmatrix.
   \begin{thmlist}
-  \item Ist $\lambda$ ein Eigenwert von $P$, dann gilt $\abs{\lambda}\leq 1$.
-  \item Ist $P$ irreduzibel, dann ist der Eigenraum zum Eigenwert $1$
-    eindimensional und er wird aufgespannt durch $(1,1,\dotsc,1)^T$.
-  \item Ist $P$ irreduzibel und aperiodisch, so ist $-1$ kein Eigenwert.\label{lem:apew}
+  \item Ist $\lambda$ ein Eigenwert von $M$, dann gilt $\abs{\lambda}\leq 1$.
+  \item Ist $M$ irreduzibel, dann ist der Eigenraum zum Eigenwert $1$
+    eindimensional und er wird aufgespannt durch $(1,1,\dotsc,1)^\transpose$.
+  \item Ist $M$ irreduzibel und aperiodisch, so ist $-1$ kein Eigenwert.\label{lem:apew}
   \end{thmlist}
 \end{lem}
 \begin{proof}
@@ -200,48 +222,48 @@ Algebra genauer anzuschauen.
   \item Sei $f$ Eigenfunktion zu $\lambda$ und $x\in\Omega$ mit
     $\abs{f(x)}=\max_{y\in\Omega}\abs{f(y)}$. Dann gilt
     \begin{equation*}
-     \abs{\lambda f(x)}=\abs{\sum_{y\in\Omega}P(x,y)f(y)}\leq\abs{f(x)}\sum_{y\in\Omega}P(x,y)=\abs{f(x)} 
+     \abs{\lambda f(x)}=\abs{\sum_{y\in\Omega}M(x,y)f(y)}\leq\abs{f(x)}\sum_{y\in\Omega}M(x,y)=\abs{f(x)} 
     \end{equation*}
     und da f nicht konstant $0$ ist, folgt $\abs{\lambda}\leq 1$.
-  \item Da die Zeilensumme $1$ ist, ist $(1,1,\dotsc,1)^T$ offensichtlich
+  \item Da die Zeilensumme $1$ ist, ist $(1,1,\dotsc,1)^\transpose$ offensichtlich
     Eigenfunktion zum Eigenwert $1$.
     Sei $f$ Eigenfunktion zu $1$ und $x\in\Omega$ mit
     $\abs{f(x)}=\max_{y\in\Omega}\abs{f(y)}$. Dann 
     \begin{equation*}
-     \sum_{y\in\Omega}P(x,y)\frac{f(y)}{f(x)}=1 
+     \sum_{y\in\Omega}M(x,y)\frac{f(y)}{f(x)}=1 
     \end{equation*}
     mit $\frac{f(y)}{f(x)}\leq 1$. Es muss also für alle $y\in\Omega$ mit
-    $P(x,y)>0$\quad$\frac{f(y)}{f(x)}=1$ gelten. 
+    $M(x,y)>0$\quad$\frac{f(y)}{f(x)}=1$ gelten. 
 
-Ist $y\in\Omega$ beliebig, so existiert $t\in\NN$ mit $P^t(x,y)>0$, denn
-$P$ ist irreduzibel. $f$ ist auch Eigenfunktion von $P^t$ zum Eigenwert $1$ und mit dem gleichen Argument
-wie oben für $P^t$ folgt $f(y)=f(x)$.
+Ist $y\in\Omega$ beliebig, so existiert $t\in\NN$ mit $M^t(x,y)>0$, denn
+$M$ ist irreduzibel. $f$ ist auch Eigenfunktion von $M^t$ zum Eigenwert $1$ und mit dem gleichen Argument
+wie oben für $M^t$ folgt $f(y)=f(x)$.
   \item Zeige die Kontraposition: Sei $f$ Eigenfunktion zum
     Eigenwert $-1$. Sei $x\in\Omega$ mit $\abs{f(x)}=\max_{y\in\Omega}\abs{f(y)}$.
     \begin{equation*}
-     \abs{-f(x)}=\abs{\sum_{y\in\Omega}P(x,y)f(y)}\leq\sum_{y\in\Omega}P(x,y)\abs{f(y)}\leq\abs{f(x)}
+     \abs{-f(x)}=\abs{\sum_{y\in\Omega}M(x,y)f(y)}\leq\sum_{y\in\Omega}M(x,y)\abs{f(y)}\leq\abs{f(x)}
     \end{equation*}
     und da $\abs{f(y)}\leq\abs{f(x)}$ folgt für alle $y\in\Omega$ mit
-    $P(x,y)>0$, dass $\abs{f(y)}=\abs{f(x)}$. 
-    % Da $P$ irreduzibel ist, folgt $\abs{f(y)}=r$ für alle $y\in\Omega$.
+    $M(x,y)>0$, dass $\abs{f(y)}=\abs{f(x)}$. 
+    % Da $M$ irreduzibel ist, folgt $\abs{f(y)}=r$ für alle $y\in\Omega$.
 
     Ohne Beträge sieht man, dass
     \begin{equation*}
-     -f(x)=\sum_{y\in\Omega}P(x,y)f(y)
+     -f(x)=\sum_{y\in\Omega}M(x,y)f(y)
     \end{equation*}
-   was nur möglich ist, wenn für $y\in\Omega$ mit $P(x,y)>0$ gilt: $f(y)=-f(x)$. 
+   was nur möglich ist, wenn für $y\in\Omega$ mit $M(x,y)>0$ gilt: $f(y)=-f(x)$. 
    
-   Sei $t\in\mathcal{T}(x)\coloneqq\Set{s\in\NN\mid P^s(x,x)>0}$. Es existiert
+   Sei $t\in\mathcal{T}(x)\coloneqq\Set{s\in\NN\mid M^s(x,x)>0}$. Es existiert
    ein Pfad
    \begin{equation*}
      x=v_0\rightarrow v_1\rightarrow v_2\rightarrow\dotso\rightarrow v_{t-1}\rightarrow v_t=x, 
    \end{equation*}
-   mit $v_i\in\Omega$, $P(v_i, v_{i+1})>0$ ($0\leq i\leq t-1$). Nach obiger
+   mit $v_i\in\Omega$, $M(v_i, v_{i+1})>0$ ($0\leq i\leq t-1$). Nach obiger
    Betrachtung ist 
    \begin{equation*}
     f(x)=-f(v_{t-1})=\dotsb=(-1)^tf(x) 
    \end{equation*}
-   Also muss $t$ gerade sein und $\ggT(\mathcal{T}(x))\geq 2$, d.h. $P$ ist
+   Also muss $t$ gerade sein und $\ggT(\mathcal{T}(x))\geq 2$, d.h. $M$ ist
    nicht aperiodisch.
   \end{thmlist}
 \end{proof}
@@ -264,10 +286,15 @@ wie oben für $P^t$ folgt $f(y)=f(x)$.
 
 \begin{rem}
  \label{rem:eigortho}
- Da $A$ in dem Beweis von \cref{lem:ortho} symmetrisch ist, sind Eigenfunktionen
- zu unterschiedlichen Eigenwerten orthogonal. Dies überträgt sich auf die
- Eigenfunktionen von $P$: Eigenfunktionen von $P$ zu unterschiedlichen
- Eigenwerten sind \textbf{$\pi$\=/orthogonal}.
+ \begin{remlist}
+ \item Da $A$ in dem Beweis von \cref{lem:ortho} symmetrisch ist, sind Eigenfunktionen
+  zu unterschiedlichen Eigenwerten orthogonal. Dies überträgt sich auf die
+  Eigenfunktionen von $P$: Eigenfunktionen von $P$ zu unterschiedlichen
+  Eigenwerten sind \textbf{$\pi$\=/orthogonal}.
+ \item Die Eigenfunktionen in der Basis sind im Allgemeinen nicht eindeutig bestimmt, die
+   Vielfachheit der auftretenden Eigenwerte aber schon: Sie entspricht der
+   Dimension des zugehörigen Eigenraumes von $P$. \label{rem:eignum}
+ \end{remlist}
 \end{rem}
 
 \begin{defn}
@@ -276,13 +303,12 @@ wie oben für $P^t$ folgt $f(y)=f(x)$.
  \begin{equation*}
   1=\lambda_1>\lambda_2\geq\dotsb\geq\lambda_{\abs{\Omega}}\geq -1.
  \end{equation*}
- Definiere
+ Die \textbf{Spektrallücke} ist definiert durch $\gamma\coloneqq 1-\lambda_2$.
+ Schreibe
  \begin{equation*}
   \lambda_\star\coloneqq\max\Set{\abs{\lambda}\mid\text{$\lambda$ ist Eigenwert von $P$, $\lambda\neq 1$}}. 
  \end{equation*}
   Die Differenz $\gamma_\star\coloneqq 1-\lambda_\star$ heißt \textbf{absolute Spektrallücke}.
-
-  Die \textbf{Spektrallücke} ist definiert durch $\gamma\coloneqq 1-\lambda_2$.
 \end{defn}
 
 \begin{rem}
@@ -297,8 +323,8 @@ Ab hier sei $P$ eine \textbf{reversible} Übergangsmatrix bezüglich der
 stationären Verteilung $\pi$.
 
 \begin{defn}
-  % reversibel unnötig, aber irreduzibel für Ex. + Eind. der stationären Vert.?
-  Sei $P$ eine reversible Übergangsmatrix mit stationärer Verteilung $\pi$. Die Abbildung
+  % Sei $P$ eine reversible Übergangsmatrix mit stationärer Verteilung $\pi$.
+  Die Abbildung
   \begin{align*}
    \diri \colon &\RR^\Omega\times\RR^\Omega \to\RR \\
    &(f,g)\xmapsto{\phantom{\RR^\Omega\times\RR^\Omega}}\sprod{(I-P)f,g}_\pi
@@ -315,7 +341,7 @@ stationären Verteilung $\pi$.
  Dann gilt $\diri(f)=\diri(f,f)$.
 \end{lem}
 \begin{proof}
-  Ausmultiplizieren der Klammer in \cref{eq:diri} gibt
+  Ausmultiplizieren des Quadrats in \cref{eq:diri} gibt
   \begin{equation*}
    \diri(f)=\underbrace{\frac{1}{2}\sum_{x,y\in\Omega}f(x)^2\pi(x)P(x,y)}_{\text{(a)}}-
    \underbrace{\sum_{x,y\in\Omega}f(x)f(y)\pi(x)P(x,y)}_{\text{(b)}}
@@ -385,7 +411,7 @@ stationären Verteilung $\pi$.
  Insgesamt
  \begin{align*}
   \diri(f)&=\sprod{(I-P)g,g}_\pi=\sprod{\, (I-P)\sum_{j=2}^n a_j f_j\, ,\, g\,}_\pi \\
-          &=\sprod{\, \sum_{j=2}^n a_j (1-\lambda_j)f_j\, ,\, g\, }_\pi=\sum_{j=2}a_j (1-\lambda_j) \\
+          &=\sprod{\, \sum_{j=2}^n a_j (1-\lambda_j)f_j\, ,\, g\, }_\pi=\sum_{j=2}^na_j^2 (1-\lambda_j) \\
           &\geq(1-\lambda_2)\sum_{j=2}^n a_j^2=(1-\lambda_2)
  \end{align*}
  mit Gleichheit im vorletzten Schritt für $g=f_2$. Damit ist \cref{eq:min} gezeigt.
@@ -415,13 +441,13 @@ Wir formulieren jetzt das Hauptresultat:
  Die Abschätzung nach oben ist linear in $\phi_\star$, die Abschätzung nach
  unten ist quadratisch. Die folgenden Beispiele zeigen, dass es Fälle gibt in
  denen die untere Abschätzung scharf ist, und welche, in denen die obere
- Abschätung scharf ist. 
+ Abschätzung scharf ist. 
 \end{rem}
 \begin{exmp}[Träge Irrfahrt auf dem n-dimensionalen Hyperwürfel]
  Sei $\Omega=\{-1,1\}^n$ der n-dimensionale Hyperwürfel.
  Betrachte die Menge $S\coloneqq\Set{x\in\Omega\mid x_1=-1}$ der Ecken, deren
- erste Koordinate -1 ist. Die stationäre Verteilung ist die Gleichverteilung
- $\pi=(2^{-n},2^{-n},\dotsc,2^{-n})^T$. Also gilt 
+ erste Koordinate $-1$ ist. Die stationäre Verteilung ist die Gleichverteilung
+ $\pi=(2^{-n},2^{-n},\dotsc,2^{-n})^\transpose$. Also gilt 
  \begin{equation*}
   \pi(S)=2^{-n}\abs{S}=2^{-n}\cdot 2^{n-1}=\frac{1}{2}\, .
  \end{equation*}
@@ -460,7 +486,7 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
   D&\coloneqq\Set{y\in\Omega\mid\text{$y$ unterscheidet sich von $x$ in mehr als einer Koordinate}}
   \end{align*}
   Für $y\in D$ ist $P(x,y)=0$. Außerdem ist $\abs{A}=\abs{J}$ und $\abs{B}=\abs{\stcomp{J}}=n-\abs{J}$.
-  Ändert man einen Koordinate von $x$, die in $J$ enthalten ist, so dreht sich
+  Ändert man eine Koordinate von $x$, die in $J$ enthalten ist, so dreht sich
   das Vorzeichen von $f_J$ um: $f_J(y)=-f_J(x)$. Ändert man aber eine Koordinate
   aus $\stcomp{J}$, so hat dies keinen Einfluss auf $f_J$, d.h. $f_J(y)=f(x)$.
   Wir können also rechnen
@@ -478,8 +504,8 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
   Zeige zunächst, dass für $I,J\subset\Omega$ mit $I\neq J$ gilt: $\sprod{f_I,f_J}_\pi=0$.
   Sei dazu o.B.d.A. $k\in I\setminus J$. Dann haben wir
   \begin{align*}
-   \sprod{f_I,f_J}_\pi&=\sum_{x\in\Omega}f_I(x)f_J(x) \\
-   &=\sum_{(x_1,\dotsc,\cancel{x_k},\dotsc,x_n)}\sum_{x_k\in\{-1,1\}}x_k\cdot f_{I\setminus\{k\}}(x)f_J(x) \\
+   \sprod{f_I,f_J}_\pi&=\sum_{x\in\Omega}f_I(x)f_J(x)\pi(x) \\
+   &=2^{-n}\sum_{(x_1,\dotsc,\cancel{x_k},\dotsc,x_n)}\sum_{x_k\in\{-1,1\}}x_k\cdot f_{I\setminus\{k\}}(x)f_J(x) \\
    &=0\, ,
   \end{align*}
   wobei die letzte Gleichheit gilt, da weder $f_{I\setminus\{k\}}$ noch $f_J$ von
@@ -524,7 +550,56 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
  und die obere Abschätzung aus \cref{thm:haupt} ist scharf und von korrekter
  Ordnung in $n$.
 \end{exmp}
+\begin{exmpbk}[Träge Irrfahrt auf dem $2n$\=/Zykel]
+ Setze $\omega\coloneqq\exp(i\pi/n)$.
+ Sei $\Omega=\Set{\omega^j\mid 0\leq j<2n}$ die Menge der $2n$ Punkte mit
+ regelmäßigem Abstand auf dem komplexen Einheitskreis. $\Omega$ bildet mit der
+ komplexen Multiplikation eine Gruppe und wir können eine Übergangsmatrix durch
+ Angabe der Inkrementenverteilung $\mu$ definieren: 
+ \begin{align*}
+  \mu(x)\coloneqq
+  \begin{cases}
+   1/2,&\text{für }x=1 \\
+   1/4,&\text{für }x\in\{\omega,\omega^{-1}\} \\
+   0,&\text{sonst}
+  \end{cases}
+ \end{align*}
+ Die Matrix ist symmetrisch, also ist sie reversibel bezüglich der
+ Gleichverteilung auf $\Omega$.
+ Für jede Menge $S\subset\Omega$ ist die Leitfähigkeit
+ \begin{equation*}
+  \phi(S)=\frac{Q(S,\stcomp{S})}{\pi(S)}=\frac{\abs{\partial S}\left( \frac{1}{4} \right)\left( \frac{1}{2n} \right)}{\frac{\abs{S}}{2n}} \, .
+ \end{equation*}
+ Der Nenner wird unter allen $S$ mit $\pi(S)\leq 1/2$ maximal für $\abs{S}=n$.
+ % Ist $\pi(S)\leq 1/2$, so ist $\abs{S}\leq n$.
+ Für jede echte Teilmenge $S\subsetneq\Omega$ gilt $\abs{\partial S}\geq 2$.
+ Die Menge $S=\{\omega,\omega^2,\dotsc,\omega^n\}$ hat folglich minimale
+ Leitfähigkeit und wir haben
+ \begin{equation}
+  \label{eq:cyclestar}
+  \phi_\star=\frac{2\left( \frac{1}{4} \right)\left( \frac{1}{2n} \right)}{\frac{n}{2n}}=\frac{1}{2n} 
+ \end{equation}
+ Für $0\leq j<2n$ definiere $f_j(x)\coloneqq x\cdot\omega^j$. Dann gilt für alle $k\in\{0,\dotsc,2n-1\}$
+ \begin{align*}
+  Pf_j(\omega^k)&=\frac{1}{2}f_j(\omega^k)+\frac{1}{4}\left( f_j(\omega^{k-1})+f_j(\omega^{k+1}) \right) \\
+  &=\omega^{jk}\left(\frac{1}{2} + \frac{\omega^j+\omega^{-j}}{4} \right)=\frac{1+\cos(\pi\frac{j}{n})}{2}f_j(\omega^k) \, .
+ \end{align*}
+ Damit haben wir $2n$ verschiedene Eigenwerte gefunden und der zweitgrößte ist
+ \begin{equation*}
+  \lambda_2=\frac{1+\cos(\pi/n)}{2}\, =1-\frac{\pi^2}{4n^2}+\mathcal{O}(n^{-4}).
+ \end{equation*}
+ Die Spektrallücke ergibt sich zu $\gamma=\pi^2/(4n^2)+\mathcal{O}(n^{-4})$.
+ \Cref{thm:haupt} liefert die untere Schranke
+ \begin{equation*}
+  \gamma\geq\frac{\phi_\star^2}{2}\overset{\eqref{eq:cyclestar}}{=}\frac{1}{8n^2} 
+ \end{equation*}
+ mit der korrekten Ordnung in $n$.
+\end{exmpbk}
 
+Wir wollen nun \cref{thm:haupt} beweisen.
+\begin{proof}[Beweis der oberen Schranke in \cref{thm:haupt}]
+  
+\end{proof}
 \printbibliography
 
 \end{document}
