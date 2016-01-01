@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{babel}
 \usepackage{csquotes}
+\usepackage{bbm}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
@@ -140,6 +141,10 @@ style=remark]{dproof}
 \DeclarePairedDelimiter{\sprod}{\langle}{\rangle}	% spitze Klammern
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}		% Betrag
 \DeclareMathOperator{\ggT}{ggT}
+
+\newcommand{\smallJ}{{\mathchoice{}{}{\scriptscriptstyle}{}J}}
+\newcommand{\smallS}{{\mathchoice{}{}{\scriptscriptstyle}{}S}}
+\newcommand{\smallI}{{\mathchoice{}{}{\scriptscriptstyle}{}I}}
 
 \begin{document}
 
@@ -333,6 +338,7 @@ stationären Verteilung $\pi$.
 \end{defn}
 
 \begin{lem}
+ \label{lem:diri}
  Definiere für $f\in\RR^\Omega$
  \begin{equation}
   \label{eq:diri}
@@ -440,8 +446,8 @@ Wir formulieren jetzt das Hauptresultat:
 \begin{rem}
  Die Abschätzung nach oben ist linear in $\phi_\star$, die Abschätzung nach
  unten ist quadratisch. Die folgenden Beispiele zeigen, dass es Fälle gibt in
- denen die untere Abschätzung scharf ist, und welche, in denen die obere
- Abschätzung scharf ist. 
+ denen die obere Abschätzung die richtige Ordnung hat, und welche, in denen die untere
+ Abschätzung die richtige Ordnung hat. 
 \end{rem}
 \begin{exmp}[Träge Irrfahrt auf dem n-dimensionalen Hyperwürfel]
  Sei $\Omega=\{-1,1\}^n$ der n-dimensionale Hyperwürfel.
@@ -470,12 +476,12 @@ Wir formulieren jetzt das Hauptresultat:
   \label{eq:phistar}
   2\phi_\star\leq 2\phi(S)=\frac{1}{n} \, .
  \end{equation} 
-Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
+Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_\smallJ:\Omega\to\RR$ durch
  \begin{equation*}
-  f_J(x_1,\dotsc,x_n)\coloneqq\prod_{j\in J}x_j \, .
+  f_\smallJ(x_1,\dotsc,x_n)\coloneqq\prod_{j\in J}x_j \, .
  \end{equation*}
  \begin{claim}
-  $f_J$ ist Eigenfunktion von $P$ zum Eigenwert $1-\abs{J}/n$.
+  $f_\smallJ$ ist Eigenfunktion von $P$ zum Eigenwert $1-\abs{J}/n$.
  \end{claim}
  \begin{dproof}
   Sei $x\in\Omega$ beliebig. Partitioniere $\Omega$ durch vier Mengen:
@@ -487,8 +493,8 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
   \end{align*}
   Für $y\in D$ ist $P(x,y)=0$. Außerdem ist $\abs{A}=\abs{J}$ und $\abs{B}=\abs{\stcomp{J}}=n-\abs{J}$.
   Ändert man eine Koordinate von $x$, die in $J$ enthalten ist, so dreht sich
-  das Vorzeichen von $f_J$ um: $f_J(y)=-f_J(x)$. Ändert man aber eine Koordinate
-  aus $\stcomp{J}$, so hat dies keinen Einfluss auf $f_J$, d.h. $f_J(y)=f(x)$.
+  das Vorzeichen von $f_\smallJ$ um: $f_\smallJ(y)=-f_\smallJ(x)$. Ändert man aber eine Koordinate
+  aus $\stcomp{J}$, so hat dies keinen Einfluss auf $f_\smallJ$, d.h. $f_\smallJ(y)=f_\smallJ(x)$.
   Wir können also rechnen
   \begin{align*}
   Pf(x)&=\sum_{y\in\Omega}P(x,y)f(y) \\
@@ -501,18 +507,18 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
   Es gibt keine weiteren Eigenwerte.
  \end{claim}
  \begin{dproof}
-  Zeige zunächst, dass für $I,J\subset\Omega$ mit $I\neq J$ gilt: $\sprod{f_I,f_J}_\pi=0$.
+  Zeige zunächst, dass für $I,J\subset\Omega$ mit $I\neq J$ gilt: $\sprod{f_\smallI,f_\smallJ}_\pi=0$.
   Sei dazu o.B.d.A. $k\in I\setminus J$. Dann haben wir
   \begin{align*}
-   \sprod{f_I,f_J}_\pi&=\sum_{x\in\Omega}f_I(x)f_J(x)\pi(x) \\
-   &=2^{-n}\sum_{(x_1,\dotsc,\cancel{x_k},\dotsc,x_n)}\sum_{x_k\in\{-1,1\}}x_k\cdot f_{I\setminus\{k\}}(x)f_J(x) \\
+   \sprod{f_\smallI,f_\smallJ}_\pi&=\sum_{x\in\Omega}f_\smallI(x)f_\smallJ(x)\pi(x) \\
+   &=2^{-n}\sum_{(x_1,\dotsc,\cancel{x_k},\dotsc,x_n)}\sum_{x_k\in\{-1,1\}}x_k\cdot f_{I\setminus\{k\}}(x)f_\smallJ(x) \\
    &=0\, ,
   \end{align*}
-  wobei die letzte Gleichheit gilt, da weder $f_{I\setminus\{k\}}$ noch $f_J$ von
+  wobei die letzte Gleichheit gilt, da weder $f_{I\setminus\{k\}}$ noch $f_\smallJ$ von
   $x_k$ abhängen. 
   Die Menge
   \begin{equation*}
-   Z\coloneqq\Set{f_J\mid J\subset\{1,\dotsc,n\}} 
+   Z\coloneqq\Set{f_\smallJ\mid J\subset\{1,\dotsc,n\}} 
   \end{equation*}
   ist demnach linear unabhängig und $\abs{Z}=2^n=\dim(\RR^\Omega)$, also ist $Z$
   eine Basis von $\RR^\Omega$. 
@@ -559,9 +565,9 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
  \begin{align*}
   \mu(x)\coloneqq
   \begin{cases}
-   1/2,&\text{für }x=1 \\
-   1/4,&\text{für }x\in\{\omega,\omega^{-1}\} \\
-   0,&\text{sonst}
+   1/2&\text{für }x=1, \\
+   1/4&\text{für }x\in\{\omega,\omega^{-1}\}, \\
+   0&\text{sonst.}
   \end{cases}
  \end{align*}
  Die Matrix ist symmetrisch, also ist sie reversibel bezüglich der
@@ -586,9 +592,9 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
  \end{align*}
  Damit haben wir $2n$ verschiedene Eigenwerte gefunden und der zweitgrößte ist
  \begin{equation*}
-  \lambda_2=\frac{1+\cos(\pi/n)}{2}\, =1-\frac{\pi^2}{4n^2}+\mathcal{O}(n^{-4}).
+  \lambda_2=\frac{1+\cos(\pi/n)}{2}\, =1-\frac{\pi^2}{4n^2}+o(n^{-4})\qquad\text{für $n\to\infty$.}
  \end{equation*}
- Die Spektrallücke ergibt sich zu $\gamma=\pi^2/(4n^2)+\mathcal{O}(n^{-4})$.
+ Die Spektrallücke ergibt sich zu $\gamma=\pi^2/(4n^2)+o(n^{-4})$.
  \Cref{thm:haupt} liefert die untere Schranke
  \begin{equation*}
   \gamma\geq\frac{\phi_\star^2}{2}\overset{\eqref{eq:cyclestar}}{=}\frac{1}{8n^2} 
@@ -598,7 +604,82 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_J:\Omega\to\RR$ durch
 
 Wir wollen nun \cref{thm:haupt} beweisen.
 \begin{proof}[Beweis der oberen Schranke in \cref{thm:haupt}]
-  
+ Für jedes $S\subset\Omega$ mit $0<\pi(S)\leq 1/2$ definiere eine Funktion $g_\smallS$ durch 
+ \begin{equation*}
+  g_\smallS(x)\coloneqq
+  \begin{cases}
+   -\pi(\stcomp{S})&\text{für }x\in S, \\
+   \pi(S)&\text{für }x\notin S.
+  \end{cases}
+ \end{equation*}
+ Dann ist
+ \begin{align*}
+  E_\pi(g_\smallS)&=\sum_{x\in\Omega}g_\smallS(x)\pi(x)=-\pi(\stcomp{S})\sum_{x\in S}\pi(x)+\pi(S)\sum_{x\in\stcomp{S}}\pi(x) \\
+  &=-\pi(\stcomp{S})\pi(S)+\pi(S)\pi(\stcomp{S})=0\, .
+ \end{align*}
+ Außerdem
+ \begin{align*}
+  \norm{g_\smallS}_\pi^2&=\sum_{x\in\Omega}g_\smallS(x)^2\pi(x)=\pi(\stcomp{S})^2\pi(S)+\pi(S)^2\pi(\stcomp{S}) \\
+  &=\pi(\stcomp{S})\pi(S)(\pi(\stcomp{S})+\pi(S))=\pi(\stcomp{S})\pi(S)
+ \end{align*}
+ und nach \cref{lem:diri} gilt
+ \begin{align*}
+  \diri(g_\smallS)=\frac{1}{2}\sum_{x,y\in\Omega}(g_\smallS(x)-g_\smallS(y))^2\pi(x)P(x,y) \, .
+ \end{align*}
+ Da $g_\smallS$ auf $S$ und $\stcomp{S}$ konstant ist, ist für $x,y\in S$ bzw.
+ $x,y\in\stcomp{S}$ $(g_\smallS(x)-g_\smallS(y))^2=0$. Wegen Reversibilität sind die Fälle
+ $x\in S,y\in\stcomp{S}$ und $y\in S,x\in\stcomp{S}$ symmetrisch. Übrig bleibt
+ \begin{align*}
+  \diri(g_\smallS)&=\frac{1}{2}\cdot 2\sum_{x\in S,y\in\stcomp{S}}(g_\smallS(x)-g_\smallS(y))^2\pi(x)P(x,y) \\
+  &=\sum_{x\in S,y\in\stcomp{S}}(\pi(S)+\pi(\stcomp{S}))^2\pi(x)P(x,y) \\
+  &=Q(S,\stcomp{S})
+ \end{align*}
+ Laut \cref{lem:spekdiri} ist
+ \begin{align*}
+  \gamma&=\min\Set{\frac{\diri(g)}{\norm{g}_\pi^2}\mid g\in\RR^\Omega,\, g\perp_\pi\mathbf{1},\, g\neq 0} \\
+  &\leq\frac{\diri(g_\smallS)}{\norm{g_\smallS}_\pi^2}=\frac{Q(S,\stcomp{S})}{\pi(S)\pi(\stcomp{S})} \, .
+ \end{align*}
+ Aus $\pi(S)\leq 1/2$ folgt $\pi(\stcomp{S})\geq 1/2$, deshalb
+ \begin{align*}
+  \gamma\leq\frac{2Q(S,\stcomp{S})}{\pi(S)}=2\phi(S) \, .
+ \end{align*}
+ Da dies für alle $S\subset\Omega$ mit $0<\pi(S)\leq 1/2$ gilt, ist auch
+ \begin{align*}
+  \gamma\leq 2\phi_\star\, . 
+ \end{align*}
+\end{proof}
+Wir brauchen das folgende Lemma vor dem Beweis der unteren Schranke:
+\begin{lem}
+ Sei $\psi$ eine nichtnegative Funktion auf $\Omega$. Ordne $\Omega$ so, dass
+ $\psi$ monoton fällt. Wenn $\pi\{\psi>0\}\leq 1/2$, dann gilt
+ \begin{equation*}
+  E_\pi(\psi)\leq\phi_\star^{-1}\sum_{\substack{x,y\in\Omega\\x<y}}(\psi(x)-\psi(y))Q(x,y)\, .
+ \end{equation*}
+\end{lem}
+\begin{proof}
+ Seit $t>0$ beliebig. Definiere $S=\Set{x\in\Omega\mid \psi(x)<t}$. Es ist
+ ${\pi(S)\leq\pi\{\psi>0\}\leq 1/2}$. Falls $\pi(S)>0$, so gilt
+ \begin{equation*}
+  \phi_\star\leq\frac{Q(S,\stcomp{S})}{\pi(S)}=\frac{\sum_{x,y\in\Omega}Q(x,y)\mathbbm{1}_{\{\psi(x)>t\geq\psi(y)\}}}{\pi\{\psi>t\}} 
+ \end{equation*}
+ Nach Wahl der Ordnung ist $\psi(x)>\psi(y)$ nur wenn $x<y$, deshalb
+ \begin{equation}
+  \label{eq:psi}
+  \pi\{\psi>t\}\leq\phi_\star^{-1}\sum_{x<y}Q(x,y)\mathbbm{1}_{\{\psi(x)>t\geq\psi(y)\}}\, .
+ \end{equation}
+ Da die rechte Seite nichtnegativ ist, gilt diese Ungleichung auch für
+ $\psi(S)=0$. Es gilt
+ \begin{equation*}
+  E_\pi(\psi)=\int_0^\infty\pi\{\psi>t\}\,\mathrm{d}t
+ \end{equation*}
+ und
+ \begin{equation*}
+  \psi(x)-\psi(y)=\int_0^\infty\mathbbm{1}_{\{\psi(x)>t\geq\psi(y)\}}\,\mathrm{d}t\, ,
+ \end{equation*}
+ also gibt integrieren von \cref{eq:psi} über t
+ \begin{equation*}
+  E_\pi(\psi)\leq\phi_\star^{-1}\sum_{x<y}(\psi(x)-\psi(y))Q(x,y)\, .
+ \end{equation*}
 \end{proof}
 \printbibliography
 
