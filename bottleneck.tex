@@ -690,7 +690,8 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
 \end{proof}
 \begin{proof}[Beweis der unteren Schranke in \cref{thm:haupt}]
  Sei $f_2$ eine Eigenfunktion zum Eigenwert $\lambda_2$. Ohne Einschränkung sei
- $\pi\{f_2>0\}\leq 1/2$ (sonst wechsle auf $-f_2$). Definiere $f\coloneqq\max\{f_2,0\}$.
+ $\pi\{f_2>0\}\leq 1/2$ (sonst wechsle auf $-f_2$). \\
+ Definiere $f\coloneqq\max\{f_2,0\}$.
  Nach \cref{lem:ortho} ist $f_2\perp_\pi\mathbf{1}$, was nur möglich ist, wenn
  $f_2$ sowohl positive als auch negative Einträge hat. $f$ ist deswegen nicht die Nullfunktion.
  \begin{claim}
@@ -707,18 +708,18 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
    &\leq f_2(x)-\sum_{y\in\Omega}P(x,y)f_2(x)=(1-\lambda_2)f_2(x)=\gamma f(x)
   \end{align*} 
  \end{dproof}
- Da $f\geq 0$ ist, folgt
- \begin{align}
+ Mit \cref{lem:diri} und weil $f$ nichtnegativ ist, folgt
+ \begin{align*}
   \begin{split}
-   \label{eq:R}
-   \sprod{(I-P)f,f}_\pi&=\sum_{x\in\Omega}((I-P)f)(x)f(x)\pi(x) \\
+   \diri(f)=\sprod{(I-P)f,f}_\pi&=\sum_{x\in\Omega}((I-P)f)(x)f(x)\pi(x) \\
    &\leq \sum_{x\in\Omega}\gamma f(x)^2\pi(x)=\gamma\sprod{f,f}_\pi\, .
   \end{split}
- \end{align}
- Wie oben bemerkt ist $f\neq 0$, wir können also umstellen zu
- \begin{equation*}
-  \gamma\geq\frac{\sprod{(I-P)f,f}_\pi}{\sprod{f,f}_\pi}\eqqcolon R\, . 
- \end{equation*}
+ \end{align*}
+ Wie oben bemerkt ist $f$ nicht konstant Null, wir können also umstellen zu
+ \begin{equation}
+  \label{eq:R}
+  \gamma\geq\frac{\diri(f)}{\sprod{f,f}_\pi}\eqqcolon R\, . 
+ \end{equation}
  Wir wollen \cref{lem:ordn} für $\psi=f^2$ anwenden. Dies ist möglich, denn
  $\pi\{f^2>0\}=\pi\{f_2^2>0\}\leq 1/2$. Nach entsprechender Wahl der Ordnung auf
  $\Omega$ haben wir
@@ -747,16 +748,16 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
   &=\sum_{x\in\Omega}f(x)^2\pi(x)(1-P(x,x))\leq\sprod{f,f}_\pi \, .
  \end{align*}
  Im ersten Faktor von \cref{eq:cauchy} wie auch im zweiten Term aus
- \cref{eq:zwei} fallen Summanden mit $x=y$ weg, deswegen kann \cref{lem:diri}
- angewendet werden:
+ \cref{eq:zwei} fallen Summanden mit $x=y$ weg, deswegen finden wir die
+ Dirichletform wieder:
  \begin{align*}
   \sum_{x<y}(f(x)-f(y))^2Q(x,y)&=\frac{1}{2}\left( \sum_{x<y}(f(x)-f(y))^2Q(x,y)+\sum_{y<x}(f(x)-f(y))^2Q(x,y)\right)\\
   &=\frac{1}{2}\sum_{x.y\in\Omega}(f(x)-f(y))^2Q(x,y) \\
-  &=\sprod{(I-P)f,f}_\pi\, .
+  &=\diri(f)\, .
  \end{align*}
  Insgesamt ist \cref{eq:cauchy} äquivalent zu
  \begin{equation*}
-  \sprod{f,f}_\pi^2\leq\phi_\star^2\sprod{(I-P)f,f}_\pi\cdot (2\sprod{f,f}_\pi-\sprod{(I-P)f,f}_\pi) \, .
+  \sprod{f,f}_\pi^2\leq\phi_\star^{-2}\cdot\diri(f)\cdot \left(2\sprod{f,f}_\pi-\diri(f)\right) \, .
  \end{equation*}
  Teile durch $\sprod{f,f}_\pi^2$ und stelle um zu
  \begin{equation*}
