@@ -163,7 +163,7 @@ definiert werden. Das Hauptresultat ist eine Abschätzung der Spektrallücke
 mithilfe der Leitfähigkeit.
 
 \subsection{Erinnerungen}
-Im Folgenden sei $\Omega$ ein endlicher Zustandsraum, $P$ eine irreduzible Übergangsmatrix auf $\Omega$ mit stationärer Verteilung $\pi$.
+Im Folgenden sei $\Omega$ ein endlicher Zustandsraum mit mehr als einem Element, $P$ eine irreduzible Übergangsmatrix auf $\Omega$ mit stationärer Verteilung $\pi$.
 \begin{defn}
  Schreibe für $x, y\in\Omega$ 
  \begin{equation*}
@@ -173,7 +173,7 @@ Im Folgenden sei $\Omega$ ein endlicher Zustandsraum, $P$ eine irreduzible Über
  \begin{equation*}
    Q(A,B)\coloneqq\sum_{x\in A, y\in B}Q(x,y). 
  \end{equation*}
- Die \textbf{Leitfähigkeit} einer Menge $S\subset\Omega$ ist
+ Die \textbf{Leitfähigkeit} einer nichtleeren Menge $S\subset\Omega$ ist
  \begin{equation*}
   \phi(S)\coloneqq\frac{Q(S,\stcomp{S})}{\pi(S)} 
  \end{equation*}
@@ -185,8 +185,8 @@ Im Folgenden sei $\Omega$ ein endlicher Zustandsraum, $P$ eine irreduzible Über
 Wir haben gesehen, dass die Leitfähigkeit die Mischzeit der Markovkette
 beeinflusst. Markovketten mit einer geringen Leitfähigkeit mischen langsamer,
 d.h. sie konvergieren langsamer gegen die stationäre Verteilung. Man kann sich
-auch vorstellen, dass die Leitfähigkeit die ``engste Stelle'' der Kette misst,
-daher der Name ``Flaschenhals-Quotient''.
+auch vorstellen, dass die Leitfähigkeit die \enquote{engste Stelle} der Kette misst,
+daher der Name \enquote{Flaschenhals-Quotient}.
 
 \section{Eigenwerte und die Spektrallücke}
 Die Verteilung einer Markovkette wird im Wesentlichen durch ihre Übergangsmatrix
@@ -198,11 +198,11 @@ Algebra genauer anzuschauen.
   Seien $f, g\in\RR^\Omega$. Definiere
   \begin{align*}
     \sprod{f,g}_\pi&\coloneqq\sum_{x\in\Omega}f(x)g(x)\pi(x) \\
-    \norm{f}_\pi&\coloneqq\sqrt{\sprod{f,f}}
+    \norm{f}_\pi&\coloneqq\sqrt{\sprod{f,f}} \, .
   \end{align*}
- Für $f,g\in\RR^\Omega$ schreibe 
+ Schreibe außerdem
  \begin{equation*}
-  f\perp_\pi g\coloniff\sprod{f,g}_\pi=0.
+  f\perp_\pi g\coloniff\sprod{f,g}_\pi=0\, .
  \end{equation*}
  $f$ und $g$ heißen dann \textbf{$\pi$\=/orthogonal}.
 \end{defn}
@@ -422,13 +422,13 @@ stationären Verteilung $\pi$.
  \end{align*}
  mit Gleichheit im vorletzten Schritt für $g=f_2$. Damit ist \cref{eq:min} gezeigt.
  
- Die Ungleichung ``$\geq$'' von \eqref{eq:min} zu \eqref{eq:min2} ist klar. Sei
+ Die Ungleichung \enquote{$\geq$} von \eqref{eq:min} zu \eqref{eq:min2} ist klar. Sei
  $g\in\RR^\Omega$ mit $g\perp_\pi\mathbf{1}$, $\norm{g}_\pi\neq0$. Dann hat
  $\widetilde{g}\coloneqq g/\norm{g}_\pi$ Norm 1 und 
  \begin{equation*}
   \diri(\widetilde{g})=\sprod{(I-P)\fracnorm{g}{g}{\pi},\fracnorm{g}{g}{\pi}}_\pi=\frac{\diri(g)}{\norm{g}_\pi^2}\, .
  \end{equation*}
- Also gilt auch ``$\leq$''.
+ Also gilt auch \enquote{$\leq$}.
 \end{proof}
 
 \section{Abschätzung der Spektrallücke über die Leitfähigkeit}
@@ -585,12 +585,18 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_\smallJ:\Omega\to\RR$ 
   \label{eq:cyclestar}
   \phi_\star=\frac{2\left( \frac{1}{4} \right)\left( \frac{1}{2n} \right)}{\frac{n}{2n}}=\frac{1}{2n} 
  \end{equation}
- Für $0\leq j<2n$ definiere $f_j(x)\coloneqq x\cdot\omega^j$. Dann gilt für alle $k\in\{0,\dotsc,2n-1\}$
+ Für $0\leq j<2n$ definiere $f_j:\Omega\to\CC, f_j(x)\coloneqq x^j$.
+ Dann gilt für alle $k\in\{0,\dotsc,2n-1\}$
  \begin{align*}
   Pf_j(\omega^k)&=\frac{1}{2}f_j(\omega^k)+\frac{1}{4}\left( f_j(\omega^{k-1})+f_j(\omega^{k+1}) \right) \\
   &=\omega^{jk}\left(\frac{1}{2} + \frac{\omega^j+\omega^{-j}}{4} \right)=\frac{1+\cos(\pi\frac{j}{n})}{2}f_j(\omega^k) \, .
  \end{align*}
- Damit haben wir $2n$ verschiedene Eigenwerte gefunden und der zweitgrößte ist
+ Diese Eigenfunktionen sind zwar komplexwertig, aber da die Matrix und die
+ Eigenwerte reell sind, gibt es auch reelle Eigenfunktionen (nämlich ist
+ mindestens einer von $\Re(f_j)$, $\Im(f_j)$ nicht konstant null). Außerdem sind
+ für $i\neq j, i\neq 2n-j$ die Eigenwerte zu $f_i,f_j$ verschieden und die
+ Eigenfunktionen $f_j,f_{2n-j}$ ($j\notin\{0,n\}$) sind linear unabhängig.
+ Deshalb sind dies alle Eigenwerte und der zweitgrößte ist 
  \begin{equation*}
   \lambda_2=\frac{1+\cos(\pi/n)}{2}\, =1-\frac{\pi^2}{4n^2}+o(n^{-4})\qquad\text{für $n\to\infty$.}
  \end{equation*}
@@ -648,8 +654,9 @@ Wir wollen nun \cref{thm:haupt} beweisen.
   \gamma\leq 2\phi_\star\, . 
  \end{align*}
 \end{proof}
-Wir brauchen das folgende Lemma vor dem Beweis der unteren Schranke:
+Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
 \begin{lem}
+ \label{lem:ordn}
  Sei $\psi$ eine nichtnegative Funktion auf $\Omega$. Ordne $\Omega$ so, dass
  $\psi$ monoton fällt. Wenn $\pi\{\psi>0\}\leq 1/2$, dann gilt
  \begin{equation*}
@@ -657,7 +664,7 @@ Wir brauchen das folgende Lemma vor dem Beweis der unteren Schranke:
  \end{equation*}
 \end{lem}
 \begin{proof}
- Seit $t>0$ beliebig. Definiere $S=\Set{x\in\Omega\mid \psi(x)<t}$. Es ist
+ Seit $t>0$ beliebig. Definiere $S=\Set{x\in\Omega\mid \psi(x)>t}$. Es ist
  ${\pi(S)\leq\pi\{\psi>0\}\leq 1/2}$. Falls $\pi(S)>0$, so gilt
  \begin{equation*}
   \phi_\star\leq\frac{Q(S,\stcomp{S})}{\pi(S)}=\frac{\sum_{x,y\in\Omega}Q(x,y)\mathbbm{1}_{\{\psi(x)>t\geq\psi(y)\}}}{\pi\{\psi>t\}} 
@@ -680,6 +687,90 @@ Wir brauchen das folgende Lemma vor dem Beweis der unteren Schranke:
  \begin{equation*}
   E_\pi(\psi)\leq\phi_\star^{-1}\sum_{x<y}(\psi(x)-\psi(y))Q(x,y)\, .
  \end{equation*}
+\end{proof}
+\begin{proof}[Beweis der unteren Schranke in \cref{thm:haupt}]
+ Sei $f_2$ eine Eigenfunktion zum Eigenwert $\lambda_2$. Ohne Einschränkung sei
+ $\pi\{f_2>0\}\leq 1/2$ (sonst wechsle auf $-f_2$). Definiere $f\coloneqq\max\{f_2,0\}$.
+ Nach \cref{lem:ortho} ist $f_2\perp_\pi\mathbf{1}$, was nur möglich ist, wenn
+ $f_2$ sowohl positive als auch negative Einträge hat. $f$ ist deswegen nicht die Nullfunktion.
+ \begin{claim}
+  Für alle $x\in\Omega$ gilt $((I-P)f)(x)\leq\gamma f(x)$.
+ \end{claim}
+ \begin{dproof}
+  Sei $x\in\Omega$ beliebig. Falls $f(x)=0$, so gilt aufgrund der Nichtnegativität von $f$
+  \begin{equation*}
+   ((I-P)f)(x)=0-\sum_{y\in\Omega}P(x,y)f(y)\leq 0=\gamma f(x)\, . 
+  \end{equation*}
+  Falls $f(x)>0$, so gilt wegen $f\geq f_2$
+  \begin{align*}
+   ((I-P)f)(x)&=f_2(x)-\sum_{y\in\Omega}P(x,y)f(x) \\
+   &\leq f_2(x)-\sum_{y\in\Omega}P(x,y)f_2(x)=(1-\lambda_2)f_2(x)=\gamma f(x)
+  \end{align*} 
+ \end{dproof}
+ Da $f\geq 0$ ist, folgt
+ \begin{align}
+  \begin{split}
+   \label{eq:R}
+   \sprod{(I-P)f,f}_\pi&=\sum_{x\in\Omega}((I-P)f)(x)f(x)\pi(x) \\
+   &\leq \sum_{x\in\Omega}\gamma f(x)^2\pi(x)=\gamma\sprod{f,f}_\pi\, .
+  \end{split}
+ \end{align}
+ Wie oben bemerkt ist $f\neq 0$, wir können also umstellen zu
+ \begin{equation*}
+  \gamma\geq\frac{\sprod{(I-P)f,f}_\pi}{\sprod{f,f}_\pi}\eqqcolon R\, . 
+ \end{equation*}
+ Wir wollen \cref{lem:ordn} für $\psi=f^2$ anwenden. Dies ist möglich, denn
+ $\pi\{f^2>0\}=\pi\{f_2^2>0\}\leq 1/2$. Nach entsprechender Wahl der Ordnung auf
+ $\Omega$ haben wir
+ \begin{equation*}
+  \sprod{f,f}_\pi^2=E_\pi(f^2)^2\leq\phi_\star^{-2}\left[ \sum_{x<y}(f(x)^2-f(y)^2)Q(x,y) \right]^2
+ \end{equation*}
+ Mit der Cauchy--Schwarz-Ungleichung bekommt man
+ \begin{equation}
+  \label{eq:cauchy}
+  \sprod{f,f}_\pi^2\leq\phi_\star^{-2}\left[ \sum_{x<y}(f(x)-f(y))^2Q(x,y) \right]\left[ \sum_{x<y}(f(x)+f(y))^2Q(x,y) \right]\, .
+ \end{equation}
+ Es gilt
+ \begin{equation*}
+  (f(x)+f(y))^2=2f(x)^2+2f(y)^2-(f(x)-f(y))^2 
+ \end{equation*}
+ und der rechte Faktor in \cref{eq:cauchy} lautet
+ \begin{align}
+  % \label{eq:rechts}
+  \sum_{x<y}(f(x)-f(y))^2Q(x,y)=2&\sum_{x<y}(f(x)^2+f(y)^2)Q(x,y) \label{eq:eins} \\
+  +&\sum_{x<y}(f(x)-f(y))^2Q(x,y)\, . \label{eq:zwei}
+ \end{align}
+ Wegen Reversibilität ist $Q(x,y)=Q(y,x)$ und es gilt für den ersten Term
+ \eqref{eq:eins} die Abschätzung
+ \begin{align*}
+  \sum_{x<y}(f(x)^2+f(y)^2)Q(x,y)&=\sum_{x\in\Omega}f(x)^2\pi(x)\sum_{\substack{y\in\Omega\\x<y}}P(x,y)+\sum_{y\in\Omega}f(y)^2\pi(y)\sum_{\substack{x\in\Omega\\x<y}}P(y,x) \\
+  &=\sum_{x\in\Omega}f(x)^2\pi(x)(1-P(x,x))\leq\sprod{f,f}_\pi \, .
+ \end{align*}
+ Im ersten Faktor von \cref{eq:cauchy} wie auch im zweiten Term aus
+ \cref{eq:zwei} fallen Summanden mit $x=y$ weg, deswegen kann \cref{lem:diri}
+ angewendet werden:
+ \begin{align*}
+  \sum_{x<y}(f(x)-f(y))^2Q(x,y)&=\frac{1}{2}\left( \sum_{x<y}(f(x)-f(y))^2Q(x,y)+\sum_{y<x}(f(x)-f(y))^2Q(x,y)\right)\\
+  &=\frac{1}{2}\sum_{x.y\in\Omega}(f(x)-f(y))^2Q(x,y) \\
+  &=\sprod{(I-P)f,f}_\pi\, .
+ \end{align*}
+ Insgesamt ist \cref{eq:cauchy} äquivalent zu
+ \begin{equation*}
+  \sprod{f,f}_\pi^2\leq\phi_\star^2\sprod{(I-P)f,f}_\pi\cdot (2\sprod{f,f}_\pi-\sprod{(I-P)f,f}_\pi) \, .
+ \end{equation*}
+ Teile durch $\sprod{f,f}_\pi^2$ und stelle um zu
+ \begin{equation*}
+  \phi_\star^2\leq R(2-R)\, ,
+ \end{equation*}
+ d.h.
+ \begin{equation*}
+  1-\phi_\star^2\geq1-2R+R^2=(1-R)^2\geq(1-\gamma)^2\, , 
+ \end{equation*}
+ wobei im letzten Schritt auf \cref{eq:R} zurückgegriffen wurde. Schließlich gilt
+ \begin{equation*}
+  \left( 1-\frac{\phi_\star^2}{2} \right)^2=1-\phi_\star^2+\frac{\phi_\star^4}{4}\geq 1-\phi_\star^2\geq (1-\gamma)^2\, , 
+ \end{equation*}
+ und die untere Schranke $\phi_\star^2/2\leq\gamma$ ist bewiesen.
 \end{proof}
 \printbibliography
 
