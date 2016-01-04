@@ -5,16 +5,17 @@
 \usepackage{csquotes}
 \usepackage{bbm}
 \usepackage[T1]{fontenc}
+\usepackage{braket}
+\usepackage{enumitem}
+\usepackage[shortcuts]{extdash}
+\usepackage{cancel}
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+\usepackage{nameref}
+\usepackage{hyperref}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtools}
 \usepackage{thmtools}
-\usepackage{braket}
-\usepackage{enumitem}
-\usepackage[backend=biber,style=alphabetic]{biblatex}
-\usepackage{nameref,hyperref}
 \usepackage[capitalize]{cleveref}
-\usepackage[shortcuts]{extdash}
-\usepackage{cancel}
 
 \bibliography{literatur.bib}
 
@@ -148,21 +149,28 @@ style=remark]{dproof}
 
 \begin{document}
 
-\title{Mischungsverhalten und Eigenfunktionen}
-% \title{Abschätzung der Spektrallücke über Leitfähigkeit}
+% \title{Mischungsverhalten und Eigenfunktionen}
+\title{Abschätzung der Spektrallücke über die Leitfähigkeit}
 \author{Alexander Schlüter}
-% \thanks{Betreuung: Prof. Dr. Dereich, Johannes Blank}
+% \thanks{Dozent: Prof.~Dr.~Dereich, Betreuung: Johannes Blank}
 \date{18. Januar 2016}
+% Bachelorseminar Markovketten, WS 15/16
+% {\let\newpage\relax\maketitle}
 \maketitle
-
-\section{Einleitung}
+\begin{abstract}
 Wir haben schon die Leitfähigkeit einer Markovkette als eine Möglichkeit zur
 Abschätzung ihrer Mischzeit kennengelernt. In diesem Vortrag soll die
 Spektrallücke einer Markovkette anhand der Eigenwerte ihrer Übergangsmatrix
 definiert werden. Das Hauptresultat ist eine Abschätzung der Spektrallücke
 mithilfe der Leitfähigkeit.
+\end{abstract}
+% \newpage
+\tableofcontents
+% \newpage
 
-\subsection{Erinnerungen}
+\section{Erinnerungen}
+
+% \subsection{Erinnerungen}
 Im Folgenden sei $\Omega$ ein endlicher Zustandsraum mit mehr als einem Element, $P$ eine irreduzible Übergangsmatrix auf $\Omega$ mit stationärer Verteilung $\pi$.
 \begin{defn}
  Schreibe für $x, y\in\Omega$ 
@@ -190,8 +198,8 @@ daher der Name \enquote{Flaschenhals-Quotient}.
 
 \section{Eigenwerte und die Spektrallücke}
 Die Verteilung einer Markovkette wird im Wesentlichen durch ihre Übergangsmatrix
-charakterisiert, deshalb ist es sinnvoll, sich diese mithilfe der Linearen
-Algebra genauer anzuschauen.
+charakterisiert, deshalb ist es sinnvoll, diese mit Mitteln der Linearen
+Algebra genauer zu betrachten.
 
 % Sei im Folgenden $P$ \textbf{reversibel} bezüglich $\pi$.
 \begin{defn}
@@ -261,7 +269,7 @@ wie oben für $M^t$ folgt $f(y)=f(x)$.
    Sei $t\in\mathcal{T}(x)\coloneqq\Set{s\in\NN\mid M^s(x,x)>0}$. Es existiert
    ein Pfad
    \begin{equation*}
-     x=v_0\rightarrow v_1\rightarrow v_2\rightarrow\dotso\rightarrow v_{t-1}\rightarrow v_t=x, 
+     x=v_0\rightarrow v_1\rightarrow v_2\rightarrow\dotso\rightarrow v_{t-1}\rightarrow v_t=x
    \end{equation*}
    mit $v_i\in\Omega$, $M(v_i, v_{i+1})>0$ ($0\leq i\leq t-1$). Nach obiger
    Betrachtung ist 
@@ -269,7 +277,7 @@ wie oben für $M^t$ folgt $f(y)=f(x)$.
     f(x)=-f(v_{t-1})=\dotsb=(-1)^tf(x) 
    \end{equation*}
    Also muss $t$ gerade sein und $\ggT(\mathcal{T}(x))\geq 2$, d.h. $M$ ist
-   nicht aperiodisch.
+   periodisch.
   \end{thmlist}
 \end{proof}
 
@@ -324,7 +332,7 @@ wie oben für $M^t$ folgt $f(y)=f(x)$.
 Bis jetzt ist noch nicht klar, was die Spektrallücke mit der Leitfähigkeit zu
 tun hat. Die Verbindung wird über die Dirichletform hergestellt.
 
-Ab hier sei $P$ eine \textbf{reversible} Übergangsmatrix bezüglich der
+Ab hier sei die irreduzible Übergangsmatrix $P$ zusätzlich \textbf{reversibel} bezüglich der
 stationären Verteilung $\pi$.
 
 \begin{defn}
@@ -592,11 +600,13 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_\smallJ:\Omega\to\RR$ 
   &=\omega^{jk}\left(\frac{1}{2} + \frac{\omega^j+\omega^{-j}}{4} \right)=\frac{1+\cos(\pi\frac{j}{n})}{2}f_j(\omega^k) \, .
  \end{align*}
  Diese Eigenfunktionen sind zwar komplexwertig, aber da die Matrix und die
- Eigenwerte reell sind, gibt es auch reelle Eigenfunktionen (nämlich ist
- mindestens einer von $\Re(f_j)$, $\Im(f_j)$ nicht konstant null). Außerdem sind
+ Eigenwerte reell sind, gibt es auch reelle Eigenfunktionen (z.\,B. der Realteil $\Re(f_j)$).
+ Außerdem sind
  für $i\neq j, i\neq 2n-j$ die Eigenwerte zu $f_i,f_j$ verschieden und die
  Eigenfunktionen $f_j,f_{2n-j}$ ($j\notin\{0,n\}$) sind linear unabhängig.
- Deshalb sind dies alle Eigenwerte und der zweitgrößte ist 
+ Deshalb ist die Menge $\{f_j\mid 0\leq j<2n\}$ eine Basis von $\CC^\Omega$ und es
+ gibt keine weiteren Eigenwerte.
+ Der zweitgrößte ist 
  \begin{equation*}
   \lambda_2=\frac{1+\cos(\pi/n)}{2}\, =1-\frac{\pi^2}{4n^2}+o(n^{-4})\qquad\text{für $n\to\infty$.}
  \end{equation*}
@@ -664,8 +674,8 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
  \end{equation*}
 \end{lem}
 \begin{proof}
- Seit $t>0$ beliebig. Definiere $S=\Set{x\in\Omega\mid \psi(x)>t}$. Es ist
- ${\pi(S)\leq\pi\{\psi>0\}\leq 1/2}$. Falls $\pi(S)>0$, so gilt
+ Seit $t>0$ beliebig. Definiere $S\coloneqq\Set{x\in\Omega\mid \psi(x)>t}$. \\
+ Es ist ${\pi(S)\leq\pi\{\psi>0\}\leq 1/2}$. Falls $\pi(S)>0$, so gilt
  \begin{equation*}
   \phi_\star\leq\frac{Q(S,\stcomp{S})}{\pi(S)}=\frac{\sum_{x,y\in\Omega}Q(x,y)\mathbbm{1}_{\{\psi(x)>t\geq\psi(y)\}}}{\pi\{\psi>t\}} 
  \end{equation*}
@@ -675,7 +685,7 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
   \pi\{\psi>t\}\leq\phi_\star^{-1}\sum_{x<y}Q(x,y)\mathbbm{1}_{\{\psi(x)>t\geq\psi(y)\}}\, .
  \end{equation}
  Da die rechte Seite nichtnegativ ist, gilt diese Ungleichung auch für
- $\psi(S)=0$. Es gilt
+ $\pi(S)=0$. Es gilt
  \begin{equation*}
   E_\pi(\psi)=\int_0^\infty\pi\{\psi>t\}\,\mathrm{d}t
  \end{equation*}
@@ -692,7 +702,7 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
  Sei $f_2$ eine Eigenfunktion zum Eigenwert $\lambda_2$. Ohne Einschränkung sei
  $\pi\{f_2>0\}\leq 1/2$ (sonst wechsle auf $-f_2$). \\
  Definiere $f\coloneqq\max\{f_2,0\}$.
- Nach \cref{lem:ortho} ist $f_2\perp_\pi\mathbf{1}$, was nur möglich ist, wenn
+ Nach \cref{rem:eigortho} ist $f_2\perp_\pi\mathbf{1}$, was nur möglich ist, wenn
  $f_2$ sowohl positive als auch negative Einträge hat. $f$ ist deswegen nicht die Nullfunktion.
  \begin{claim}
   Für alle $x\in\Omega$ gilt $((I-P)f)(x)\leq\gamma f(x)$.
@@ -737,7 +747,6 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
  \end{equation*}
  und der rechte Faktor in \cref{eq:cauchy} lautet
  \begin{align}
-  % \label{eq:rechts}
   \sum_{x<y}(f(x)-f(y))^2Q(x,y)=2&\sum_{x<y}(f(x)^2+f(y)^2)Q(x,y) \label{eq:eins} \\
   +&\sum_{x<y}(f(x)-f(y))^2Q(x,y)\, . \label{eq:zwei}
  \end{align}
