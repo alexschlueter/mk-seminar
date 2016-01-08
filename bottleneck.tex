@@ -147,6 +147,14 @@ style=remark]{dproof}
 \newcommand{\smallS}{{\mathchoice{}{}{\scriptscriptstyle}{}S}}
 \newcommand{\smallI}{{\mathchoice{}{}{\scriptscriptstyle}{}I}}
 
+\newcommand\phantomarrow[2]{%
+  \setbox0=\hbox{$\displaystyle #1\to$}%
+  \hbox to \wd0{%
+    $#2\mapstochar
+     \cleaders\hbox{$\mkern-1mu\relbar\mkern-3mu$}\hfill
+     \mkern-7mu\rightarrow$}%
+  \,}
+
 \begin{document}
 
 % \title{Mischungsverhalten und Eigenfunktionen}
@@ -340,7 +348,8 @@ stationären Verteilung $\pi$.
   Die Abbildung
   \begin{align*}
    \diri \colon &\RR^\Omega\times\RR^\Omega \to\RR \\
-   &(f,g)\xmapsto{\phantom{\RR^\Omega\times\RR^\Omega}}\sprod{(I-P)f,g}_\pi
+   &\phantomarrow{\RR^\Omega\times\RR^\Omega}{(f,g)}\sprod{(I-P)f,g}_\pi
+   % &(f,g)\xmapsto{\phantom{\RR^\Omega\times\RR^\Omega}}\sprod{(I-P)f,g}_\pi
   \end{align*}
   heißt \textbf{Dirichletform} zu $(P,\pi)$.
 \end{defn}
