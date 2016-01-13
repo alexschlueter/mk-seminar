@@ -185,7 +185,7 @@ Im Folgenden sei $\Omega$ ein endlicher Zustandsraum mit mehr als einem Element,
  \begin{equation*}
   Q(x,y)\coloneqq\pi(x)P(x,y).
  \end{equation*}
- Für $A, B\subset\Omega$ sei das \textbf{Randmaß} $Q$ definiert durch
+ Für $A, B\subset\Omega$ sei das \textbf{Kantenmaß} $Q$ definiert durch
  \begin{equation*}
    Q(A,B)\coloneqq\sum_{x\in A, y\in B}Q(x,y). 
  \end{equation*}
@@ -421,7 +421,7 @@ stationären Verteilung $\pi$.
 \begin{proof} % [Beweis von \cref{lem:spekdiri}]
  Sei $n\coloneqq\abs{\Omega}$. Laut \cref{lem:ortho} gibt es in $\ell^2(\pi)$ eine
  Orthonormalbasis $f_1,\dotsc,f_n$ von Eigenfunktionen von $P$, wobei $f_1=\mathbf{1}$. Ist
- $g\in\RR^\Omega$, so kann $g$ in der ONB entwickelt werden zu
+ $g\in\RR^\Omega$, so kann $g$ in der Orthonormalbasis entwickelt werden zu
  \begin{equation*}
   g=\sum_{j=1}^n\sprod{g,f_j}_\pi f_j\, . 
  \end{equation*}
@@ -541,9 +541,10 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_\smallJ:\Omega\to\RR$ 
   eine Basis von $\RR^\Omega$. 
 
   Wäre nun $\mu$ ein anderer Eigenwert von $P$, so
-  wäre nach \cref{rem:eigortho} die zugehörige Eigenfunktion $g$
-  $\pi$\=/orthogonal auf allen Eigenvektoren zu anderen Eigenwerten, also auch auf
-  allen Elementen aus $Z$. Dann wäre $g$ linear unabhängig zu $Z$. Dies ist ein Widerspruch.
+  % wäre nach \cref{rem:eigortho} die zugehörige Eigenfunktion $g$
+  % $\pi$\=/orthogonal auf allen Eigenvektoren zu anderen Eigenwerten, also auch auf
+  % allen Elementen aus $Z$. Dann 
+  wäre die zugehörige Eigenfunktion linear unabhängig zu $Z$. Dies ist ein Widerspruch.
 
   % Da $Z$ eine Basis ist, existiert für jedes $J\subset\{1,\dotsc,n\}$ ein
   % $a_J\in\RR$, sodass
