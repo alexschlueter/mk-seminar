@@ -758,7 +758,7 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
  und der rechte Faktor in \cref{eq:cauchy} lautet
  \begin{align}
   \sum_{x<y}(f(x)+f(y))^2Q(x,y)=2&\sum_{x<y}(f(x)^2+f(y)^2)Q(x,y) \label{eq:eins} \\
-  +&\sum_{x<y}(f(x)-f(y))^2Q(x,y)\, . \label{eq:zwei}
+  -&\sum_{x<y}(f(x)-f(y))^2Q(x,y)\, . \label{eq:zwei}
  \end{align}
  Wegen Reversibilität ist $Q(x,y)=Q(y,x)$ und es gilt für den ersten Term
  \eqref{eq:eins} die Abschätzung
@@ -767,8 +767,7 @@ Vor dem Beweis der unteren Schranke brauchen wir das folgende Lemma:
   &=\sum_{x\in\Omega}f(x)^2\pi(x)(1-P(x,x))\leq\sprod{f,f}_\pi \, .
  \end{align*}
  Im ersten Faktor von \cref{eq:cauchy} wie auch im zweiten Term aus
- \cref{eq:zwei} fallen Summanden mit $x=y$ weg, deswegen finden wir die
- Dirichletform wieder:
+ \cref{eq:zwei} finden wir die Dirichletform wieder:
  \begin{align*}
   \sum_{x<y}(f(x)-f(y))^2Q(x,y)&=\frac{1}{2}\left( \sum_{x<y}(f(x)-f(y))^2Q(x,y)+\sum_{y<x}(f(x)-f(y))^2Q(x,y)\right)\\
   &=\frac{1}{2}\sum_{x.y\in\Omega}(f(x)-f(y))^2Q(x,y) \\
