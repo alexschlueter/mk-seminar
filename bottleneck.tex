@@ -28,25 +28,18 @@
 \declaretheoremstyle[headpunct=.:]{claim}
 
 \declaretheorem[
-name=Beispiel,
-%refname={theorem,theorems},        %Lower Case Versions of Theorem Type
-% Refname={Satz,Sätze},
-style=break,
-numberwithin=section]{exmpbk}
-
-\declaretheorem[
-name=Satz,
-%refname={theorem,theorems},        %Lower Case Versions of Theorem Type
-% Refname={Satz,Sätze},
-style=break,
-numberwithin=section]{thmbk}
-
-\declaretheorem[
 name=Satz,
 %refname={theorem,theorems},        %Lower Case Versions of Theorem Type
 % Refname={Satz,Sätze},
 style=definition,
 numberwithin=section]{thm}
+
+\declaretheorem[
+name=Satz,
+%refname={theorem,theorems},        %Lower Case Versions of Theorem Type
+% Refname={Satz,Sätze},
+style=break,
+sibling=thm]{thmbk}
 
 \declaretheorem[
 name=Lemma,
@@ -75,6 +68,13 @@ name=Beispiel,
 % Refname={Bemerkung,Bemerkungen},
 style=definition,
 sibling=thm]{exmp}
+
+\declaretheorem[
+name=Beispiel,
+%refname={theorem,theorems},        %Lower Case Versions of Theorem Type
+% Refname={Satz,Sätze},
+style=break,
+sibling=thm]{exmpbk}
 
 \declaretheorem[
 name=Beh,
