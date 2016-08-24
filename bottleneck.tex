@@ -514,10 +514,10 @@ Für jede Teilmenge $J\subset\{1,\dotsc,n\}$ definiere $f_\smallJ:\Omega\to\RR$ 
   aus $\stcomp{J}$, so hat dies keinen Einfluss auf $f_\smallJ$, d.h. $f_\smallJ(y)=f_\smallJ(x)$.
   Wir können also rechnen
   \begin{align*}
-  Pf(x)&=\sum_{y\in\Omega}P(x,y)f(y) \\
-  &=P(x,x)f(x)+\sum_{y\in A}P(x,y)f(y)+\sum_{y\in B}P(x,y)f(y) \\
-  &=\frac{1}{2}f(x)+\abs{J}\cdot\frac{1}{2n}\cdot(-f(x))+(n-\abs{J})\frac{1}{2n}f(x) \\
-  &=(1-\frac{\abs{J}}{n})f(x)\, .
+  Pf_\smallJ(x)&=\sum_{y\in\Omega}P(x,y)f_\smallJ(y) \\
+  &=P(x,x)f_\smallJ(x)+\sum_{y\in A}P(x,y)f_\smallJ(y)+\sum_{y\in B}P(x,y)f_\smallJ(y) \\
+  &=\frac{1}{2}f_\smallJ(x)+\abs{J}\cdot\frac{1}{2n}\cdot(-f_\smallJ(x))+(n-\abs{J})\frac{1}{2n}f_\smallJ(x) \\
+  &=(1-\frac{\abs{J}}{n})f_\smallJ(x)\, .
   \end{align*}
  \end{dproof}
  \begin{claim}
